@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-
+//Classe de test midi
 public class Midi {
 
 	/**
@@ -41,7 +41,7 @@ public class Midi {
 	static Sequencer sequencer;
 	static Synthesizer synth;
 	
-	public static void main(String[] args) throws MidiUnavailableException, InvalidMidiDataException {
+	public static void mainTest(String[] args) throws MidiUnavailableException, InvalidMidiDataException {
 		synth = MidiSystem.getSynthesizer();
 		synth.open(); 
 		final MidiChannel[] mc = synth.getChannels();
@@ -107,7 +107,7 @@ public class Midi {
 {
     ShortMessage myMsg = new ShortMessage();
     try {
-        myMsg.setMessage(ShortMessage.NOTE_ON, 0, note, 127);
+        myMsg.setMessage(ShortMessage.NOTE_OFF, 0, note, 127);
     } catch (InvalidMidiDataException e1) {
         // TODO Auto-generated catch block
         e1.printStackTrace();
@@ -123,7 +123,7 @@ public class Midi {
 		track.add(me);	   
    }
 	
-  public static void main250(String argv[]) {
+  public static void mainTest2(String argv[]) {
 	    System.out.println("midifile begin ");
 		try
 		{
@@ -202,7 +202,7 @@ public class Midi {
 			for(int i = 0; i <= note.length-1; i++) {
 				changeProgram(1, track, j);
 				CreateOnEvent(note[i], j+50, track);
-				CreateOffEvent(note[i], j+55, track);
+				CreateOffEvent(note[i], j+100, track);
 				j+=100;
 			}
 			
@@ -210,7 +210,7 @@ public class Midi {
 			for(int i = 0; i <= note.length-1; i++) {
 				changeProgram(2, track2, j);
 				CreateOnEvent(note2[i], j+50, track2);
-				CreateOffEvent(note2[i], j+55, track2);
+				CreateOffEvent(note2[i], j+100, track2);
 				j+=100;
 			}	
 			
@@ -218,7 +218,7 @@ public class Midi {
 			for(int i = 0; i <= note.length-1; i++) {
 				changeProgram(5, track3, j);
 				CreateOnEvent(note3[i], j+50, track3);
-				CreateOffEvent(note3[i], j+55, track3);
+				CreateOffEvent(note3[i], j+100, track3);
 				j+=100;
 			}
 			
@@ -226,7 +226,7 @@ public class Midi {
 			for(int i = 0; i <= note.length-1; i++) {
 				changeProgram(1, track4, j);
 				CreateOnEvent(note4[i], j+50, track4);
-				CreateOffEvent(note4[i], j+55, track4);
+				CreateOffEvent(note4[i], j+100, track4);
 				j+=100;
 			}
 			

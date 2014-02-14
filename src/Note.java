@@ -13,10 +13,11 @@ public class Note {
 			duration = Integer.valueOf(noteData[1]);
 			octave = Integer.valueOf(noteData[0].substring(noteData[0].length()-1, noteData[0].length()));
 			name = noteData[0].substring(0, noteData[0].length()-1);
+			midi = NoteUtils.getMidi(name, octave);
+			code = NoteUtils.getCode(name, octave);
 		} else {
 			throw new ParsingException(data);
 		}
-		System.out.println(this.toString());
 	}
 
 	public String getName() {
@@ -69,7 +70,7 @@ public class Note {
 
 	@Override
 	public String toString() {
-		return "Note [name=" + name + ", octave=" + octave + ", duration="
+		return "Note [name=" + name + ", octave=" + octave + ", midi=" + midi + ", code=" + code + ", duration="
 				+ duration + "]";
 	}
 	
