@@ -6,6 +6,8 @@ public class NoteUtils {
 	
 	//Tableau de correspondance 
 	private static ArrayList<String> code = new ArrayList<String>(Arrays.asList("do", "re", "mi", "fa", "sol", "la", "si"));
+	private static ArrayList<String> lilypond = new ArrayList<String>(Arrays.asList(",", "", "'", "''"));
+	private static ArrayList<String> lilypondDuration = new ArrayList<String>(Arrays.asList("4", "2", "2.", "1"));
 	private static Hashtable<String, Integer> midi = new Hashtable<String, Integer>(){{
 	    put("do1", 24);	put("re1", 26); put("mi1", 28); put("fa1", 29); put("sol1", 31); put("la1", 33); put("si1", 35);
 	    put("do2", 36);	put("re2", 38); put("mi2", 40); put("fa2", 41); put("sol2", 43); put("la2", 45); put("si2", 47);
@@ -19,6 +21,10 @@ public class NoteUtils {
 	
 	public static int getMidi(String name, int octave) {
 		return midi.get(name+octave);
+	}
+	
+	public static String getLilypond(String name, int octave, int duration) {
+		return name+lilypond.get(octave-1)+lilypondDuration.get(duration-1);
 	}
 
 }

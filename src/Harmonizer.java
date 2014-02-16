@@ -15,19 +15,18 @@ public class Harmonizer {
 	 */
 	
 	public static void main(String[] args) {
-		File song = new File("song.txt");
-		Song test = new Song(song,25);
+		File song = new File("dummy.txt");
+		Song test = new Song(song,100);
+		//test.harmonize();
 		test.writeToMidi();
-
-		Sequence sequence;
+		test.writeToLily();
 		try {
-			sequence = MidiSystem.getSequence(new File("song.mid" ));
-			Sequencer sequencer = MidiSystem.getSequencer(); 
-			sequencer.open(); 
-			sequencer.setSequence(sequence); 
-			sequencer.start(); 
-		} catch (InvalidMidiDataException | IOException e) {
-		} catch (MidiUnavailableException e) { } 
+			test.playSong();
+		} catch (MidiUnavailableException | InvalidMidiDataException
+				| IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

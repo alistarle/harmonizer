@@ -72,9 +72,10 @@ public class MidiWriter {
 
 	public void writeTrack(ArrayList<Note> noteList) {
 		for(Note note : noteList) {
-			this.CreateOnEvent(note.getMidi());
+			System.out.println(note.toString());
+			if(!note.getName().equals("-")) this.CreateOnEvent(note.getMidi());
 			timeline+=tick*note.getDuration();
-			this.CreateOffEvent(note.getMidi());
+			if(!note.getName().equals("-")) this.CreateOffEvent(note.getMidi());
 			timeline+=tick;
 		}
 	}
