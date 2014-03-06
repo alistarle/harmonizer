@@ -26,5 +26,9 @@ public class NoteUtils {
 	public static String getLilypond(String name, int octave, int duration) {
 		return name+lilypond.get(octave-1)+lilypondDuration.get(duration-1);
 	}
+	
+	public static String getLilypongDuration(int duration) {
+		return lilypondDuration.get(duration-1);
+	}
 
 }

@@ -16,9 +16,15 @@ public class Harmonizer {
 	
 	public static void main(String[] args) {
 		File song = new File("dummy.txt");
-		Song test = new Song(song,100);
-		//test.harmonize();
+		Song test = new Song(song,75);
+		System.out.println(test.harmonize(0,0,0));
 		test.writeToMidi();
+		try {
+			test.writeTrack(new Chord(new Note("do4:1")), 1);
+		} catch (ParsingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		test.writeToLily();
 		try {
 			test.playSong();

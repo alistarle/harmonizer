@@ -19,7 +19,7 @@ public class Note {
 				lilypond = NoteUtils.getLilypond(name, octave, duration);
 			} else {
 				name = "-";
-				lilypond = "r"+duration;
+				lilypond = "r"+NoteUtils.getLilypongDuration(duration);
 			}
 		} else {
 			throw new ParsingException(data);

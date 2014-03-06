@@ -13,9 +13,11 @@ import javax.sound.midi.Sequencer;
 public class Song {
 
 	private ArrayList<ArrayList<Note>> trackList = new ArrayList<ArrayList<Note>>();
+	private ArrayList<Integer> timeline = new ArrayList<Integer>();
 	private String name;
 	private File input;
 	private int tick;
+	private int duration;
 	
 	public Song(File input, int tick) {
 		this.input = input;
@@ -36,8 +38,28 @@ public class Song {
 		lw.writeLily();
 	}
 	
-	public void harmonize() {
-		
+	public String harmonize(int i, int timeline, int timelineTemp) {
+		if(timeline < this.duration) {
+			this.timeline.add(i);
+			if(trackList.get(0).get(i).getDuration()+timelineTemp-1 == timeline) {
+				return i+" "+harmonize(i+1, timeline+1, timeline+1);
+			} else {
+				return i+" "+harmonize(i, timeline+1, timelineTemp);
+			}
+		} else {
+			return "";
+		}
+	}
+	
+	public boolean writeTrack(Chord chord, int timeline) {
+		trackList.get(1).add(chord.getAlto());
+		trackList.get(2).add(chord.getTenor());
+		trackList.get(3).add(chord.getBasse());
+		if(timeline+1 != duration) {
+			return writeTrack(new Chord(chord, trackList.get(0).get(this.timeline.get(timeline))), timeline+1);
+		} else {
+			return true;
+		}
 	}
 	
 	public void playSong() throws MidiUnavailableException, InvalidMidiDataException, IOException {
@@ -64,16 +86,20 @@ public class Song {
 		if(content != null) {
 			String[] noteArray = content.split(" ");
 			ArrayList<Note> noteList = new ArrayList<Note>();
-			for(String note : noteArray) {
+			for(String stringNote : noteArray) {
 				try {
-					noteList.add(new Note(note));
+					Note note = new Note(stringNote);
+					noteList.add(note);
+					this.duration+=note.getDuration();
 				} catch (ParsingException e) {
 					e.printStackTrace();
 				}
 			}
+			System.out.println("Durée du chant : "+duration);
 			trackList.add(noteList);
-			trackList.add(noteList);
-			trackList.add(noteList);
+			trackList.add(new ArrayList<Note>());
+			trackList.add(new ArrayList<Note>());
+			trackList.add(new ArrayList<Note>());
 		}
 	}
 
