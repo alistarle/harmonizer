@@ -1,3 +1,4 @@
+package com.harmonizer.writer;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 import javax.sound.midi.Track;
+
+import com.harmonizer.core.Note;
 
 
 public class MidiWriter {
@@ -33,36 +36,15 @@ public class MidiWriter {
 			sec = new Sequence(javax.sound.midi.Sequence.PPQ,50);
 			track = sec.createTrack();
 			
-			sm = new SysexMessage();
-			byte[] b = {(byte)0xF0, 0x7E, 0x7F, 0x09, 0x01, (byte)0xF7};
-			sm.setMessage(b, 6);
-			MidiEvent me = new MidiEvent(sm,timeline);
-			track.add(me);
-			
-			mt = new MetaMessage();
-	        byte[] bt = {0x02, (byte)0x00, 0x00};
-			mt.setMessage(0x51 ,bt, 3);
-			me = new MidiEvent(mt,timeline);
-			track.add(me);
-			
 			mt = new MetaMessage();
 			String TrackName = new String("Piste de test");
 			mt.setMessage(0x03 ,TrackName.getBytes(), TrackName.length());
 			me = new MidiEvent(mt,timeline);
 			track.add(me);
 			
-			mm = new ShortMessage();
-			mm.setMessage(0xB0, 0x7D,0x00);
-			me = new MidiEvent(mm,timeline);
-			track.add(me);
 			
 			mm = new ShortMessage();
-			mm.setMessage(0xB0, 0x7F,0x00);
-			me = new MidiEvent(mm,timeline);
-			track.add(me);
-			
-			mm = new ShortMessage();
-			mm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, 1, 0);
+			mm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, 15, 0);
 			me = new MidiEvent(mm,timeline);
 			track.add(me);
 			timeline+=100;

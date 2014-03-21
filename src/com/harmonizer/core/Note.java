@@ -1,3 +1,7 @@
+package com.harmonizer.core;
+import com.harmonizer.exceptions.ParsingException;
+import com.harmonizer.utils.NoteUtils;
+
 
 public class Note {
 	private String name;
@@ -16,7 +20,7 @@ public class Note {
 				octave = Integer.valueOf(noteData[0].substring(noteData[0].length()-1, noteData[0].length()));
 				midi = NoteUtils.getMidi(name, octave);
 				code = NoteUtils.getCode(name, octave);
-				lilypond = NoteUtils.getLilypond(name, octave, duration);
+				//lilypond = NoteUtils.getLilypond(name, octave, duration);
 			} else {
 				name = "-";
 				lilypond = "r"+NoteUtils.getLilypongDuration(duration);
@@ -24,6 +28,10 @@ public class Note {
 		} else {
 			throw new ParsingException(data);
 		}
+	}
+	
+	public Note(NoteType name) {
+		this.name = name.toString().toLowerCase();
 	}
 
 	public String getName() {

@@ -1,8 +1,12 @@
+package com.harmonizer.writer;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import com.harmonizer.core.Note;
 
 
 public class LilyWriter {

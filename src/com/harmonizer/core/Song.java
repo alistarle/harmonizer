@@ -1,3 +1,4 @@
+package com.harmonizer.core;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,6 +9,10 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
+
+import com.harmonizer.exceptions.ParsingException;
+import com.harmonizer.writer.LilyWriter;
+import com.harmonizer.writer.MidiWriter;
 
 
 public class Song {
@@ -52,9 +57,9 @@ public class Song {
 	}
 	
 	public boolean writeTrack(Chord chord, int timeline) {
-		trackList.get(1).add(chord.getAlto());
-		trackList.get(2).add(chord.getTenor());
-		trackList.get(3).add(chord.getBasse());
+		trackList.get(1).add(chord.getThird());
+		trackList.get(2).add(chord.getFifth());
+		trackList.get(3).add(chord.getTonic());
 		if(timeline+1 != duration) {
 			return writeTrack(new Chord(chord, trackList.get(0).get(this.timeline.get(timeline))), timeline+1);
 		} else {

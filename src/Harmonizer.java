@@ -2,10 +2,13 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.Sequencer;
+
+import com.harmonizer.core.Chord;
+import com.harmonizer.core.Note;
+import com.harmonizer.core.NoteType;
+import com.harmonizer.core.Song;
+import com.harmonizer.exceptions.ParsingException;
 
 
 public class Harmonizer {
@@ -15,8 +18,8 @@ public class Harmonizer {
 	 */
 	
 	public static void main(String[] args) {
-		File song = new File("dummy.txt");
-		Song test = new Song(song,75);
+		File song = new File("future.txt");
+		Song test = new Song(song,9);
 		System.out.println(test.harmonize(0,0,0));
 		test.writeToMidi();
 		try {
@@ -25,7 +28,7 @@ public class Harmonizer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		test.writeToLily();
+		//test.writeToLily();
 		try {
 			test.playSong();
 		} catch (MidiUnavailableException | InvalidMidiDataException
