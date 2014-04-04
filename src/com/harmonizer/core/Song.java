@@ -11,6 +11,7 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 
 import com.harmonizer.exceptions.ParsingException;
+import com.harmonizer.graph.Graph;
 import com.harmonizer.writer.LilyWriter;
 import com.harmonizer.writer.MidiWriter;
 
@@ -20,6 +21,7 @@ public class Song {
 	private ArrayList<ArrayList<Note>> trackList = new ArrayList<ArrayList<Note>>();
 	private ArrayList<Integer> timeline = new ArrayList<Integer>();
 	private String name;
+	private Graph graph;
 	private File input;
 	private int tick;
 	private int duration;
@@ -54,6 +56,10 @@ public class Song {
 		} else {
 			return "";
 		}
+	}
+	
+	public void generateGraph() {
+		this.graph = new Graph(trackList,timeline);
 	}
 	
 	public boolean writeTrack(Chord chord, int timeline) {

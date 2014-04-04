@@ -21,13 +21,8 @@ public class Harmonizer {
 		File song = new File("future.txt");
 		Song test = new Song(song,9);
 		System.out.println(test.harmonize(0,0,0));
-		test.writeToMidi();
-		try {
-			test.writeTrack(new Chord(new Note("do4:1")), 1);
-		} catch (ParsingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//test.writeToMidi();
+		test.writeTrack(new Chord(new Note(NoteType.DO),new Note(NoteType.MI),new Note(NoteType.SOL)), 0);
 		//test.writeToLily();
 		try {
 			test.playSong();
