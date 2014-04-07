@@ -24,12 +24,16 @@ public class Song {
 	private Graph graph;
 	private File input;
 	private int tick;
-	private int duration;
+	public static int duration;
+	public static int harmonisation;
 	
 	public Song(File input, int tick) {
 		this.input = input;
 		this.tick = tick;
 		this.readFromFile();
+		this.generateTimeline(0, 0, 0);
+		this.generateGraph();
+		System.out.println("Il y a "+harmonisation);
 	}
 	
 	public void writeToMidi() {
@@ -45,32 +49,21 @@ public class Song {
 		lw.writeLily();
 	}
 	
-	public String harmonize(int i, int timeline, int timelineTemp) {
+	public boolean generateTimeline(int i, int timeline, int timelineTemp) {
 		if(timeline < this.duration) {
 			this.timeline.add(i);
 			if(trackList.get(0).get(i).getDuration()+timelineTemp-1 == timeline) {
-				return i+" "+harmonize(i+1, timeline+1, timeline+1);
+				return generateTimeline(i+1, timeline+1, timeline+1);
 			} else {
-				return i+" "+harmonize(i, timeline+1, timelineTemp);
+				return generateTimeline(i, timeline+1, timelineTemp);
 			}
 		} else {
-			return "";
+			return false;
 		}
 	}
 	
 	public void generateGraph() {
 		this.graph = new Graph(trackList,timeline);
-	}
-	
-	public boolean writeTrack(Chord chord, int timeline) {
-		trackList.get(1).add(chord.getThird());
-		trackList.get(2).add(chord.getFifth());
-		trackList.get(3).add(chord.getTonic());
-		if(timeline+1 != duration) {
-			return writeTrack(new Chord(chord, trackList.get(0).get(this.timeline.get(timeline))), timeline+1);
-		} else {
-			return true;
-		}
 	}
 	
 	public void playSong() throws MidiUnavailableException, InvalidMidiDataException, IOException {
@@ -83,7 +76,8 @@ public class Song {
 	
 	private void readFromFile() {
 		String content = "";
-		try(FileInputStream fis = new FileInputStream(input)) {
+		try {
+			FileInputStream fis = new FileInputStream(input);
 			byte[] buf = new byte[1];
 			int n = 0;
 			while((n = fis.read(buf)) >= 0){    
@@ -107,6 +101,7 @@ public class Song {
 				}
 			}
 			System.out.println("Durée du chant : "+duration);
+			Song.duration = duration;
 			trackList.add(noteList);
 			trackList.add(new ArrayList<Note>());
 			trackList.add(new ArrayList<Note>());

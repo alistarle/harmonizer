@@ -35,4 +35,8 @@ public class ChordUtils {
 	public static ArrayList<Chord> getNext(Chord chord) {
 		return nextChord.get(chord);
 	}
+	
+	public static ArrayList<Chord> getChords() {
+		return new ArrayList<Chord>(Arrays.asList(I, II, III, IVa, IVb, V, VI, VII));
+	}
 }
