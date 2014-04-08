@@ -58,6 +58,10 @@ public class Chord implements Cloneable {
 			return false;
 		return true;
 	}
+	
+	public boolean contains(Note note) {
+		return note.getName().equals(this.tonic.getName()) || note.getName().equals(this.third.getName()) || note.getName().equals(this.fifth.getName());
+	}
 
 	@Override
 	public String toString() {

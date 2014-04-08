@@ -27,7 +27,6 @@ public class Graph {
 	
 	private void initGraph() {
 		for(Chord chord : ChordUtils.getChords()) {
-			//System.out.println(chord);
 			root.add(new Node(chord, 1));
 		}
 	}

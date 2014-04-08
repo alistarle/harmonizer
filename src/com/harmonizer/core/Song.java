@@ -18,8 +18,8 @@ import com.harmonizer.writer.MidiWriter;
 
 public class Song {
 
-	private ArrayList<ArrayList<Note>> trackList = new ArrayList<ArrayList<Note>>();
-	private ArrayList<Integer> timeline = new ArrayList<Integer>();
+	public static ArrayList<ArrayList<Note>> trackList = new ArrayList<ArrayList<Note>>();
+	public static ArrayList<Integer> timeline = new ArrayList<Integer>();
 	private String name;
 	private Graph graph;
 	private File input;
@@ -31,9 +31,11 @@ public class Song {
 		this.input = input;
 		this.tick = tick;
 		this.readFromFile();
+		System.out.print("Timeline : ");
 		this.generateTimeline(0, 0, 0);
+		System.out.println();
 		this.generateGraph();
-		System.out.println("Il y a "+harmonisation);
+		System.out.println("Il y a "+harmonisation+" harmonisations possibles");
 	}
 	
 	public void writeToMidi() {
@@ -52,8 +54,11 @@ public class Song {
 	public boolean generateTimeline(int i, int timeline, int timelineTemp) {
 		if(timeline < this.duration) {
 			this.timeline.add(i);
-			if(trackList.get(0).get(i).getDuration()+timelineTemp-1 == timeline) {
+			System.out.print(i+" ");
+			if(trackList.get(0).get(i).getDuration()+timelineTemp-1 == timeline && trackList.get(0).get(i+1).getName() != "-") {
 				return generateTimeline(i+1, timeline+1, timeline+1);
+			} else if(trackList.get(0).get(i).getDuration()+trackList.get(0).get(i+1).getDuration()+timelineTemp-1 == timeline) {
+				return generateTimeline(i+2, timeline+1, timeline);
 			} else {
 				return generateTimeline(i, timeline+1, timelineTemp);
 			}

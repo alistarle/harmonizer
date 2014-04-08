@@ -8,18 +8,19 @@ import com.harmonizer.utils.ChordUtils;
 
 public class Node {
 	private Chord chord;
-	private ArrayList<Node> next = new ArrayList<Node>();
+	private ArrayList<Node> next;
 	private int time;
 	
 	public Node(Chord chord, int time) {
 		this.chord = chord;
 		this.time = time;
-		if(time <= Song.duration) {
+		if(time < Song.duration) {
+			next = new ArrayList<Node>();
 			for(Chord c : ChordUtils.getNext(chord)) {
-				//for(int i=0; i<time; i++) System.out.print("\t");
-				//System.out.println(c);
-				if(time == Song.duration) Song.harmonisation++;
-				next.add(new Node(c, time+1));
+				if(c.contains(Song.trackList.get(0).get(Song.timeline.get(time)))) {
+					if(time == Song.duration-1) Song.harmonisation++;
+					next.add(new Node(c, time+1));
+				}
 			}
 		}
 	}

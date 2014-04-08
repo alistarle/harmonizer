@@ -23,7 +23,7 @@ public class Harmonizer {
 	public static boolean launch = false;
 	
 	public static void main(String[] args) throws MidiUnavailableException, InvalidMidiDataException, IOException {
-		File song = new File("dummy.txt");
+		File song = new File("song.txt");
 		Song test = new Song(song,9);
 		if(launch) {
 			test.writeToMidi();
