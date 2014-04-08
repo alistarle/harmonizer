@@ -55,10 +55,10 @@ public class Song {
 		if(timeline < this.duration) {
 			this.timeline.add(i);
 			System.out.print(i+" ");
-			if(trackList.get(0).get(i).getDuration()+timelineTemp-1 == timeline && trackList.get(0).get(i+1).getName() != "-") {
+			if(trackList.get(0).get(i).getDuration()+timelineTemp-1 == timeline && (i != trackList.get(0).size()-1 && trackList.get(0).get(i+1).getName() != "-")) {
 				return generateTimeline(i+1, timeline+1, timeline+1);
-			} else if(trackList.get(0).get(i).getDuration()+trackList.get(0).get(i+1).getDuration()+timelineTemp-1 == timeline) {
-				return generateTimeline(i+2, timeline+1, timeline);
+			} else if(i != trackList.get(0).size()-1 && trackList.get(0).get(i).getDuration()+trackList.get(0).get(i+1).getDuration()+timelineTemp-1 == timeline) {
+				return generateTimeline(i+2, timeline+1, timeline+1);
 			} else {
 				return generateTimeline(i, timeline+1, timelineTemp);
 			}
