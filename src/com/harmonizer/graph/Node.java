@@ -14,8 +14,11 @@ public class Node {
 	public Node(Chord chord, int time) {
 		this.chord = chord;
 		this.time = time;
-		if(time < Song.duration) {
-			next = new ArrayList<Node>();
+	}
+	
+	public ArrayList<Node> getNext() {
+		next = new ArrayList<Node>();
+		if(this.time < Song.duration) {
 			for(Chord c : ChordUtils.getNext(chord)) {
 				if(c.contains(Song.trackList.get(0).get(Song.timeline.get(time)))) {
 					if(time == Song.duration-1) Song.harmonisation++;
@@ -23,9 +26,6 @@ public class Node {
 				}
 			}
 		}
-	}
-	
-	public ArrayList<Node> getNext() {
 		return next;
 	}
 	

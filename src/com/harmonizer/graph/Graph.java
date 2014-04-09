@@ -23,8 +23,15 @@ public class Graph {
 		this.root = new ArrayList<Node>();
 		
 		initGraph();
+		runThroughGraph(root);
 	}
 	
+	private void runThroughGraph(ArrayList<Node> nodeList) {
+		for(Node node : nodeList) {
+			runThroughGraph(node.getNext());
+		}
+	}
+
 	private void initGraph() {
 		for(Chord chord : ChordUtils.getChords()) {
 			root.add(new Node(chord, 1));
