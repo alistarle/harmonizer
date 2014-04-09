@@ -6,7 +6,6 @@ import java.util.Hashtable;
 
 import com.harmonizer.core.Chord;
 import com.harmonizer.core.Note;
-import com.harmonizer.core.NoteType;
 
 public class ChordUtils {
 
@@ -32,11 +31,49 @@ public class ChordUtils {
 	    put(I, nextI);	put(II, nextII); put(III, nextIII); put(IVa, nextIVa); put(IVb, nextIVb); put(V, nextV); put(VI, nextVI); put(VII, nextVII);
 	}};	
 	
+	public static ArrayList<Chord> getChords() {
+		return new ArrayList<Chord>(Arrays.asList(I, II, III, IVa, IVb, V, VI, VII));
+	}
+	
+	public static ArrayList<Chord> getEdges() {
+		return new ArrayList<Chord>(Arrays.asList(I, II, III, IVa, V, VI,VII));
+	}
+
+	public static boolean isEdge(Chord c) {
+		return c.equals(IVb);
+	}
+	
 	public static ArrayList<Chord> getNext(Chord chord) {
 		return nextChord.get(chord);
 	}
 	
-	public static ArrayList<Chord> getChords() {
-		return new ArrayList<Chord>(Arrays.asList(I, II, III, IVa, IVb, V, VI, VII));
+	public static ArrayList<Chord> getChords(Note note) {
+		ArrayList<Chord> list = new ArrayList<Chord>();
+		for(Chord chord : getChords()) {
+			if(chord.contains(note)) {
+				list.add(chord);
+			}
+		}
+		return list;
+	}
+	
+	public static ArrayList<Chord> getChords(Chord chord, Note note) {
+		ArrayList<Chord> list = new ArrayList<Chord>();
+		for(Chord c : getNext(chord)) {
+			if(c.contains(note)) {
+				list.add(c);
+			}
+		}
+		return list;
+	}
+
+	public static ArrayList<Chord> getNext(Chord chord, Note note) {
+		ArrayList<Chord> list = new ArrayList<Chord>();
+		for(Chord c : getNext(chord)) {
+			if(c.contains(note)) {
+				list.add(c);
+			}
+		}
+		return list;
 	}
 }

@@ -1,5 +1,6 @@
 package com.harmonizer.core;
 import com.harmonizer.exceptions.ParsingException;
+import com.harmonizer.utils.NoteType;
 import com.harmonizer.utils.NoteUtils;
 
 

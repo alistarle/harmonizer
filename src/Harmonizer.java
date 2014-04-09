@@ -6,10 +6,10 @@ import javax.sound.midi.MidiUnavailableException;
 
 import com.harmonizer.core.Chord;
 import com.harmonizer.core.Note;
-import com.harmonizer.core.NoteType;
 import com.harmonizer.core.Song;
 import com.harmonizer.exceptions.ParsingException;
 import com.harmonizer.utils.ChordUtils;
+import com.harmonizer.utils.NoteType;
 
 
 public class Harmonizer {

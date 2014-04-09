@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 
+import com.harmonizer.core.Chord;
+import com.harmonizer.core.Note;
+
 public class NoteUtils {
 	
 	//Tableau de correspondance 
@@ -30,6 +33,10 @@ public class NoteUtils {
 	
 	public static String getLilypongDuration(int duration) {
 		return lilypondDuration.get(duration-1);
+	}
+	
+	public static ArrayList<Note> getNote(Chord chord, TrackType track, Note soprano) {
+		return null;
 	}
 
 }

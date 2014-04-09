@@ -1,1 +1,1 @@
-do4:1 do4:1 do4:1 re4:1 mi4:3 re4:2 do4:1 mi4:1 re4:1 re4:1 do4:3 -:3
+do4:1 do4:1 do4:1 re4:1 mi4:3 re4:2 do4:1 mi4:1 re4:1 re4:1 do4:3 -:3 do4:1 do4:1 do4:1 re4:1 mi4:1
