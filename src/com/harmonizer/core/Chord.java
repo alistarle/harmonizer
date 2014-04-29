@@ -6,7 +6,7 @@ import java.util.Arrays;
 import com.harmonizer.exceptions.ParsingException;
 import com.harmonizer.rules.LocalRule;
 import com.harmonizer.rules.RuleII;
-import com.harmonizer.utils.ChordType;
+import com.harmonizer.types.ChordType;
 import com.harmonizer.utils.ChordUtils;
 
 public class Chord implements Cloneable {

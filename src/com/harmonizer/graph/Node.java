@@ -13,14 +13,12 @@ public class Node {
 	private int time;
 
 	public Node(NoteSet noteSet, int time) {
-		Song.node++;
 		this.noteSet = noteSet;
 		this.time = time;
 		this.next = new HashSet<Node>();
 	}
 	
 	public Node(NoteSet noteSet, int time, HashSet<NoteSet> next) {
-		Song.node++;
 		this.noteSet = noteSet;
 		this.time = time;
 		this.next = new HashSet<Node>();

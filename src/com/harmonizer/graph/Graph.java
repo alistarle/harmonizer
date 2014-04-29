@@ -2,6 +2,7 @@ package com.harmonizer.graph;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import com.harmonizer.core.Chord;
 import com.harmonizer.core.Note;
@@ -14,7 +15,7 @@ import com.harmonizer.utils.ChordUtils;
 import com.harmonizer.utils.RuleUtils;
 
 public class Graph {
-	private ArrayList<Node> root;
+	private Node root;
 	
 	private ArrayList<ArrayList<Note>> tracklist;
 	private ArrayList<Integer> timeline;
@@ -28,18 +29,18 @@ public class Graph {
 		this.time = 1;
 		this.tracklist = trackList;
 		this.timeline = timeline;
-		this.root = new ArrayList<Node>();
 		this.noteSetsList = new ArrayList<ArrayList<NoteSet>>();
 		this.linkNoteSets = new ArrayList<ArrayList<ArrayList<Integer>>>();
 		
 		initNoteSets();
 		localSimplify();
-		displayNoteSetStats();
+		//displayNoteSetStats();
 		initLinking();
 		//simplifyLinking();
-		displayLinkingStats();
+		//displayLinkingStats();
 		initGraph();
-		//runThroughGraph(root);
+		writeTrack((Node) root.getNext().toArray()[0],0);
+		//runThroughGraph(root.getNext());
 	}
 	
 	private void initNoteSets() {
@@ -56,20 +57,12 @@ public class Graph {
 	}
 
 	private void initGraph() {
+		HashSet<NoteSet> next = new HashSet<NoteSet>();
 		for(NoteSet ns : noteSetsList.get(0)) {
-			HashSet<NoteSet> next = new HashSet<NoteSet>();
-			for(Integer i : linkNoteSets.get(0).get(noteSetsList.get(0).indexOf(ns))) {
-				next.add(noteSetsList.get(1).get(i));
-			}
-			root.add(new Node(ns, 0,next));
+			next.add(ns);
 		}
-		
-		HashSet<Node> nextNode = new HashSet<Node>();
-		for(Node node : root) {
-			nextNode.addAll(node.getNext());
-		}
-		
-		genGraph(nextNode, 1);
+		root = new Node(null, -1,next);
+		genGraph(root.getNext(), 0);
 	}
 	
 	public void genGraph(HashSet<Node> nodeList, int time) {
@@ -125,6 +118,21 @@ public class Graph {
 		for(LocalRule rule : RuleUtils.getLocalRules()) {
 			for(ArrayList<NoteSet> ns : noteSetsList) {
 				rule.simplify(ns);
+			}
+		}
+	}
+	
+	public void writeTrack(Node node, int time) {
+		tracklist.get(1).add(node.getNoteSet().getAlto());
+		tracklist.get(2).add(node.getNoteSet().getTenor());
+		tracklist.get(3).add(node.getNoteSet().getBasse());
+		if(node.getNext().size() != 0) {
+			boolean passed = false;
+			for(Node n : node.getNext()){
+				if(n.getNext().size() != 0 && time < Song.duration-1 && !passed) {
+					passed = true;
+					writeTrack(n,time+1);
+				}
 			}
 		}
 	}

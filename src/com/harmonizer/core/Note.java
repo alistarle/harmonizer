@@ -1,8 +1,9 @@
 package com.harmonizer.core;
 
 import com.harmonizer.exceptions.ParsingException;
-import com.harmonizer.utils.NoteType;
+import com.harmonizer.types.NoteType;
 import com.harmonizer.utils.NoteUtils;
+import com.sun.corba.se.impl.presentation.rmi.IDLTypeException;
 
 public class Note {
 	private String name;
@@ -22,7 +23,7 @@ public class Note {
 						noteData[0].length() - 1, noteData[0].length()));
 				midi = NoteUtils.getMidi(name, octave);
 				code = NoteUtils.getCode(name, octave);
-				// lilypond = NoteUtils.getLilypond(name, octave, duration);
+				//lilypond = NoteUtils.getLilypond(name, octave, duration);
 			} else {
 				name = "-";
 				lilypond = "r" + NoteUtils.getLilypongDuration(duration);
@@ -35,8 +36,10 @@ public class Note {
 	public Note(String name, int octave) {
 		this.name = name;
 		this.octave = octave;
+		this.duration = 1;
 		this.midi = NoteUtils.getMidi(name, octave);
 		this.code = NoteUtils.getCode(name, octave);
+		this.lilypond = NoteUtils.getLilypond(name, octave, 1);
 	}
 
 	public Note(NoteType name) {

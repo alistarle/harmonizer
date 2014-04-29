@@ -8,8 +8,8 @@ import com.harmonizer.core.Chord;
 import com.harmonizer.core.Note;
 import com.harmonizer.core.Song;
 import com.harmonizer.exceptions.ParsingException;
+import com.harmonizer.types.NoteType;
 import com.harmonizer.utils.ChordUtils;
-import com.harmonizer.utils.NoteType;
 
 public class Harmonizer {
 
@@ -19,12 +19,12 @@ public class Harmonizer {
 	 * @throws InvalidMidiDataException
 	 * @throws MidiUnavailableException
 	 */
-	public static boolean launch = false;
+	public static boolean launch = true;
 
 	public static void main(String[] args) throws MidiUnavailableException,
 			InvalidMidiDataException, IOException {
 		File song = new File("dummy.txt");
-		Song test = new Song(song, 9);
+		Song test = new Song(song, 2);
 		if (launch) {
 			test.writeToMidi();
 			test.writeToLily();

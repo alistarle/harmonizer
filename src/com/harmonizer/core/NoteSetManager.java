@@ -2,9 +2,9 @@ package com.harmonizer.core;
 
 import java.util.ArrayList;
 
+import com.harmonizer.types.TrackType;
 import com.harmonizer.utils.ChordUtils;
 import com.harmonizer.utils.NoteUtils;
-import com.harmonizer.utils.TrackType;
 
 public class NoteSetManager {
 	private Note soprano;

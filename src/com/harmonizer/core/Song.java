@@ -13,8 +13,8 @@ import javax.sound.midi.Sequencer;
 
 import com.harmonizer.exceptions.ParsingException;
 import com.harmonizer.graph.Graph;
+import com.harmonizer.types.TrackType;
 import com.harmonizer.utils.ChordUtils;
-import com.harmonizer.utils.TrackType;
 import com.harmonizer.writer.LilyWriter;
 import com.harmonizer.writer.MidiWriter;
 import com.harmonizer.utils.*;
@@ -38,12 +38,11 @@ public class Song {
 		this.generateTimeline(0, 0, 0);
 		System.out.println();
 		this.generateGraph();
-		System.out.println("Le graphe comporte seulement "+node+" noeuds !!!");
 	}
 
 	public void writeToMidi() {
 		MidiWriter mw = new MidiWriter("song", tick);
-		mw.writeTrack(trackList.get(0));
+		mw.writeTrack(trackList);
 		mw.close();
 		mw.write();
 	}
