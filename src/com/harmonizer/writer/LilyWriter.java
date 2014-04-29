@@ -8,35 +8,31 @@ import java.util.ArrayList;
 
 import com.harmonizer.core.Note;
 
-
 public class LilyWriter {
 
-    private File file;
-    private FileWriter fw;
-    private String lilypond = "";
-    private ArrayList<ArrayList<Note>> trackList;
-    
+	private File file;
+	private FileWriter fw;
+	private String lilypond = "";
+	private ArrayList<ArrayList<Note>> trackList;
+
 	public LilyWriter(String string, ArrayList<ArrayList<Note>> trackList) {
-		file = new File(string+".ly");
+		file = new File(string + ".ly");
 		this.trackList = trackList;
 	}
-	
+
 	public void generateLily() {
-		lilypond+="\\include \"italiano.ly\" \n"
-				+ "\\version \"2.18.0\" \n"
-				+ "{ \n"
-				+ " << \n";
-		for(ArrayList<Note> noteList : trackList) {
-			lilypond+="{ ";
-			for(Note note : noteList) {
-				lilypond+=note.getLilypond()+" ";
+		lilypond += "\\include \"italiano.ly\" \n" + "\\version \"2.18.0\" \n"
+				+ "{ \n" + " << \n";
+		for (ArrayList<Note> noteList : trackList) {
+			lilypond += "{ ";
+			for (Note note : noteList) {
+				lilypond += note.getLilypond() + " ";
 			}
-			lilypond+="} \n";
+			lilypond += "} \n";
 		}
-		lilypond += " >> \n"
-				+ "}";
+		lilypond += " >> \n" + "}";
 	}
-	
+
 	public void writeLily() {
 		try {
 			System.out.println(lilypond);

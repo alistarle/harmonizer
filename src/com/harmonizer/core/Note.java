@@ -1,8 +1,8 @@
 package com.harmonizer.core;
+
 import com.harmonizer.exceptions.ParsingException;
 import com.harmonizer.utils.NoteType;
 import com.harmonizer.utils.NoteUtils;
-
 
 public class Note {
 	private String name;
@@ -11,28 +11,34 @@ public class Note {
 	private int code;
 	private String lilypond;
 	private int duration;
-	
+
 	public Note(String data) throws ParsingException {
-		if(data.matches("^((do|re|mi|fa|sol|la|si)[1-4]|-):[1-9][0-9]*$")) {
+		if (data.matches("^((do|re|mi|fa|sol|la|si)[1-4]|-):[1-9][0-9]*$")) {
 			String[] noteData = data.split(":");
 			duration = Integer.valueOf(noteData[1]);
-			if(!noteData[0].equals("-")) {
-				name = noteData[0].substring(0, noteData[0].length()-1);
-				octave = Integer.valueOf(noteData[0].substring(noteData[0].length()-1, noteData[0].length()));
+			if (!noteData[0].equals("-")) {
+				name = noteData[0].substring(0, noteData[0].length() - 1);
+				octave = Integer.valueOf(noteData[0].substring(
+						noteData[0].length() - 1, noteData[0].length()));
 				midi = NoteUtils.getMidi(name, octave);
 				code = NoteUtils.getCode(name, octave);
-				//lilypond = NoteUtils.getLilypond(name, octave, duration);
+				// lilypond = NoteUtils.getLilypond(name, octave, duration);
 			} else {
 				name = "-";
-				lilypond = "r"+NoteUtils.getLilypongDuration(duration);
+				lilypond = "r" + NoteUtils.getLilypongDuration(duration);
 			}
 		} else {
 			throw new ParsingException(data);
 		}
 	}
-	
-	
-	
+
+	public Note(String name, int octave) {
+		this.name = name;
+		this.octave = octave;
+		this.midi = NoteUtils.getMidi(name, octave);
+		this.code = NoteUtils.getCode(name, octave);
+	}
+
 	public Note(NoteType name) {
 		this.name = name.toString().toLowerCase();
 	}
@@ -46,8 +52,6 @@ public class Note {
 		result = prime * result + octave;
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -70,7 +74,9 @@ public class Note {
 		return true;
 	}
 
-
+	public boolean nameEquals(Note note) {
+		return note.getName().equals(name);
+	}
 
 	public String getName() {
 		return name;
@@ -122,8 +128,9 @@ public class Note {
 
 	@Override
 	public String toString() {
-		return "Note [name=" + name + ", lilypond ="+ lilypond +", octave=" + octave + ", midi=" + midi + ", code=" + code + ", duration="
+		return "Note [name=" + name + ", lilypond =" + lilypond + ", octave="
+				+ octave + ", midi=" + midi + ", code=" + code + ", duration="
 				+ duration + "]";
 	}
-	
+
 }

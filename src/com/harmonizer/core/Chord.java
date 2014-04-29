@@ -1,25 +1,26 @@
 package com.harmonizer.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.harmonizer.exceptions.ParsingException;
+import com.harmonizer.rules.LocalRule;
+import com.harmonizer.rules.RuleII;
+import com.harmonizer.utils.ChordType;
 import com.harmonizer.utils.ChordUtils;
-
 
 public class Chord implements Cloneable {
 
 	private Note tonic;
 	private Note third;
 	private Note fifth;
-	
+
 	public Chord(Note tonic, Note third, Note fifth) {
 		this.tonic = tonic;
 		this.third = third;
 		this.fifth = fifth;
 	}
 
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -29,8 +30,6 @@ public class Chord implements Cloneable {
 		result = prime * result + ((tonic == null) ? 0 : tonic.hashCode());
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -58,15 +57,27 @@ public class Chord implements Cloneable {
 			return false;
 		return true;
 	}
-	
+
 	public boolean contains(Note note) {
-		return note.getName().equals(this.tonic.getName()) || note.getName().equals(this.third.getName()) || note.getName().equals(this.fifth.getName());
+		return note.getName().equals(this.tonic.getName())
+				|| note.getName().equals(this.third.getName())
+				|| note.getName().equals(this.fifth.getName());
 	}
 
 	@Override
 	public String toString() {
-		return "Chord [tonic=" + tonic.getName() + ", third=" + third.getName() + ", fifth="
-				+ fifth.getName() + "]";
+		return "Chord [tonic=" + tonic.getName() + ", third=" + third.getName()
+				+ ", fifth=" + fifth.getName() + "]";
+	}
+
+	public ChordType getNature(Note note) {
+		if (note.getName().equals(this.tonic.getName()))
+			return ChordType.TONIC;
+		if (note.getName().equals(this.third.getName()))
+			return ChordType.THIRD;
+		if (note.getName().equals(this.fifth.getName()))
+			return ChordType.FIFTH;
+		return null;
 	}
 
 	public Note getTonic() {
