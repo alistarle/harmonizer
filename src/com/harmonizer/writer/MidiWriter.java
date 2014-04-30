@@ -69,7 +69,6 @@ public class MidiWriter {
 
 	public void close() {
 		try {
-			timeline += 20;
 			mt = new MetaMessage();
 			byte[] bet = {}; // empty array
 			mt.setMessage(0x2F, bet, 0);

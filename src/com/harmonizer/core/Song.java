@@ -21,14 +21,14 @@ import com.harmonizer.writer.MidiWriter;
 
 public class Song {
 
-	public static ArrayList<ArrayList<Note>> trackList = new ArrayList<ArrayList<Note>>();
-	public static ArrayList<Integer> timeline = new ArrayList<Integer>();
+	private ArrayList<ArrayList<Note>> trackList = new ArrayList<ArrayList<Note>>();
+	private ArrayList<Integer> timeline = new ArrayList<Integer>();
 	private String name;
+	private String folder;
 	private Graph graph;
 	private File input;
 	private File output;
 	public static int duration;
-	public static int node;
 	public static int harmonisation;
 	
 	public Song(File input) {
@@ -36,24 +36,30 @@ public class Song {
 	}
 	
 	public Song(File input, File output) {
+		this(input,output,"");
+	}
+	
+	public Song(File input, File output, String folder) {
+		this.duration = 0;
 		this.input = input;
 		this.output = output;
+		this.folder = folder+File.separator;
 		this.readFromFile();
 		System.out.print("Timeline : ");
 		this.generateTimeline(0, 0, 0);
 		System.out.println();
-		this.generateGraph();
+		this.generateGraph();		
 	}
 
 	public void writeToMidi() {
 		MidiWriter mw = new MidiWriter(name);
 		mw.writeTrack(trackList);
 		mw.close();
-		mw.write(output.getName().split("\\.")[0]);
+		mw.write(folder+output.getName().split("\\.")[0]);
 	}
 
 	public void writeToLily() {
-		LilyWriter lw = new LilyWriter(output.getName().split("\\.")[0], name, trackList);
+		LilyWriter lw = new LilyWriter(folder+output.getName().split("\\.")[0], name, trackList);
 		lw.generateLily();
 		lw.writeLily();
 	}
@@ -90,10 +96,14 @@ public class Song {
 	public String getName() {
 		return this.name;
 	}
+	
+	public String getOutput() {
+		return output.getName().split("\\.")[0];
+	}
 
 	public void playSong() throws MidiUnavailableException,
 			InvalidMidiDataException, IOException {
-		Sequence sequence = MidiSystem.getSequence(new File(output.getName().split("\\.")[0]+".mid"));
+		Sequence sequence = MidiSystem.getSequence(new File(folder+output.getName().split("\\.")[0]+".mid"));
 		Sequencer sequencer = MidiSystem.getSequencer();
 		sequencer.open();
 		sequencer.setSequence(sequence);

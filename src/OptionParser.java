@@ -22,7 +22,7 @@ public class OptionParser {
 			put(OptionType.LILYPOND, new ArrayList<String>(Arrays.asList(".*\\.chant$",".*\\.ly$")));
 			put(OptionType.NUMBER, new ArrayList<String>(Arrays.asList(".*\\.chant$")));
 			put(OptionType.BEAUTY, new ArrayList<String>(Arrays.asList("^[1-4]$")));
-			put(OptionType.FOLDER, new ArrayList<String>(Arrays.asList("^[a-zA-Z]+$","^[a-zA-Z]+$")));
+			put(OptionType.FOLDER, new ArrayList<String>(Arrays.asList("^[a-zA-Z0-9]+$","^[a-zA-Z0-9]+$")));
 		}
 	};
 	
