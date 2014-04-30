@@ -22,7 +22,6 @@ public class MidiWriter {
 	private ArrayList<Track> trackList;
 	
 	private String name;
-	private int tick;
 
 	private long timeline = 0;
 
@@ -30,19 +29,18 @@ public class MidiWriter {
 	private MetaMessage mt;
 	private ShortMessage mm;
 
-	public MidiWriter(String name, int tick) {
+	public MidiWriter(String name) {
 		this.trackList = new ArrayList<Track>();
 		this.name = name;
-		this.tick = tick;
 		try {
-			sec = new Sequence(javax.sound.midi.Sequence.PPQ, 10);
+			sec = new Sequence(javax.sound.midi.Sequence.PPQ, 1);
 			trackList.add(sec.createTrack());
 			trackList.add(sec.createTrack());
 			trackList.add(sec.createTrack());
 			trackList.add(sec.createTrack());
 
 			mt = new MetaMessage();
-			String TrackName = new String("Piste de test");
+			String TrackName = new String(name);
 			mt.setMessage(0x03, TrackName.getBytes(), TrackName.length());
 			me = new MidiEvent(mt, timeline);
 			CreateEventForAll(me);
@@ -51,7 +49,6 @@ public class MidiWriter {
 			mm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, 1, 0);
 			me = new MidiEvent(mm, timeline);
 			CreateEventForAll(me);
-			timeline += 10;
 		} catch (InvalidMidiDataException e) {
 		}
 
@@ -59,14 +56,13 @@ public class MidiWriter {
 
 	public void writeTrack(ArrayList<ArrayList<Note>> noteList) {
 		for(int i = 0; i < noteList.size(); i++) {
-			timeline = 10;
+			timeline = 0;
 			for (Note note : noteList.get(i)) {
 				if (!note.getName().equals("-"))
 					this.CreateOnEvent(note.getMidi(),trackList.get(i));
-				timeline += tick * note.getDuration();
+				timeline += note.getDuration();
 				if (!note.getName().equals("-"))
 					this.CreateOffEvent(note.getMidi(),trackList.get(i));
-				timeline += tick;
 			}
 		}
 	}
@@ -83,9 +79,9 @@ public class MidiWriter {
 		}
 	}
 
-	public void write() {
+	public void write(String fileName) {
 		try {
-			File f = new File(name + ".mid");
+			File f = new File(fileName + ".mid");
 			MidiSystem.write(sec, 1, f);
 		} catch (IOException e) {
 		}
@@ -94,7 +90,7 @@ public class MidiWriter {
 	public void CreateOnEvent(int note,Track track) {
 		ShortMessage myMsg = new ShortMessage();
 		try {
-			myMsg.setMessage(ShortMessage.NOTE_ON, 0, note, 127-trackList.indexOf(track)*20);
+			myMsg.setMessage(ShortMessage.NOTE_ON, 0, note, 127);
 		} catch (InvalidMidiDataException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -106,7 +102,7 @@ public class MidiWriter {
 	public void CreateOffEvent(int note,Track track) {
 		ShortMessage myMsg = new ShortMessage();
 		try {
-			myMsg.setMessage(ShortMessage.NOTE_OFF, 0, note, 127-trackList.indexOf(track)*20);
+			myMsg.setMessage(ShortMessage.NOTE_OFF, 0, note, 127);
 		} catch (InvalidMidiDataException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

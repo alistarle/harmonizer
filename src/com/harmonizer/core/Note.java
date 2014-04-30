@@ -3,7 +3,6 @@ package com.harmonizer.core;
 import com.harmonizer.exceptions.ParsingException;
 import com.harmonizer.types.NoteType;
 import com.harmonizer.utils.NoteUtils;
-import com.sun.corba.se.impl.presentation.rmi.IDLTypeException;
 
 public class Note {
 	private String name;
@@ -23,7 +22,7 @@ public class Note {
 						noteData[0].length() - 1, noteData[0].length()));
 				midi = NoteUtils.getMidi(name, octave);
 				code = NoteUtils.getCode(name, octave);
-				//lilypond = NoteUtils.getLilypond(name, octave, duration);
+				lilypond = NoteUtils.getLilypond(name, octave, duration);
 			} else {
 				name = "-";
 				lilypond = "r" + NoteUtils.getLilypongDuration(duration);

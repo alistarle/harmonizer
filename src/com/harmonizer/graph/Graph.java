@@ -36,6 +36,7 @@ public class Graph {
 		localSimplify();
 		//displayNoteSetStats();
 		initLinking();
+		Song.harmonisation = calcHarmonisation();
 		//simplifyLinking();
 		//displayLinkingStats();
 		initGraph();
@@ -101,17 +102,24 @@ public class Graph {
 		}
 	}
 	
-	public void simplifyLinking() {
+	public int calcHarmonisation() {
 		int harmonisation = 0;
+		for(ArrayList<ArrayList<Integer>> list : linkNoteSets) {
+			for(ArrayList<Integer> intList : list) {
+				harmonisation+=intList.size();
+			}
+		}
+		return harmonisation;
+	}
+	
+	public void simplifyLinking() {
 		for(int i = linkNoteSets.size()-1; i >= 0; i--) {
 			for(int j = linkNoteSets.get(i).size()-1; j >= 0; j--) {
-				harmonisation+=linkNoteSets.get(i).get(j).size();
 				if(linkNoteSets.get(i).get(j).size() == 0) {
 					linkNoteSets.get(i).remove(j);
 				}
 			}
 		}
-		System.out.println("Il y a "+harmonisation+" harmonisations possibles");
 	}
 	
 	public void localSimplify() {
@@ -129,7 +137,7 @@ public class Graph {
 		if(node.getNext().size() != 0) {
 			boolean passed = false;
 			for(Node n : node.getNext()){
-				if(n.getNext().size() != 0 && time < Song.duration-1 && !passed) {
+				if((n.getNext().size() != 0 || n.getTime() == Song.duration-1) && time < Song.duration && !passed) {
 					passed = true;
 					writeTrack(n,time+1);
 				}

@@ -13,15 +13,17 @@ public class LilyWriter {
 	private File file;
 	private FileWriter fw;
 	private String lilypond = "";
+	private String name;
 	private ArrayList<ArrayList<Note>> trackList;
 
-	public LilyWriter(String string, ArrayList<ArrayList<Note>> trackList) {
-		file = new File(string + ".ly");
+	public LilyWriter(String fileName, String name, ArrayList<ArrayList<Note>> trackList) {
+		this.file = new File(fileName + ".ly");
+		this.name = name;
 		this.trackList = trackList;
 	}
 
 	public void generateLily() {
-		lilypond += "\\include \"italiano.ly\" \n" + "\\version \"2.18.0\" \n"
+		lilypond += "\\header {\n title =\""+name+"\" \n}\n\\include \"italiano.ly\" \n" + "\\version \"2.18.0\" \n"
 				+ "{ \n" + " << \n";
 		for (ArrayList<Note> noteList : trackList) {
 			lilypond += "{ ";

@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 
-import javax.swing.text.html.Option;
-
 import com.harmonizer.exceptions.UnknownOptionException;
 import com.harmonizer.types.OptionType;
 
@@ -20,38 +18,73 @@ public class OptionParser {
 		{
 			put(OptionType.NAME, new ArrayList<String>());
 			put(OptionType.HELP, new ArrayList<String>());
-			put(OptionType.MIDI, new ArrayList<String>(Arrays.asList("\\.chant$","\\.mid$")));
-			put(OptionType.LILYPOND, new ArrayList<String>(Arrays.asList("\\.chant$","\\.ly$")));
-			put(OptionType.NUMBER, new ArrayList<String>(Arrays.asList("\\.chant$")));
-			put(OptionType.BEAUTY, new ArrayList<String>(Arrays.asList("^[1-9][0-9]*$")));
+			put(OptionType.MIDI, new ArrayList<String>(Arrays.asList(".*\\.chant$",".*\\.mid$")));
+			put(OptionType.LILYPOND, new ArrayList<String>(Arrays.asList(".*\\.chant$",".*\\.ly$")));
+			put(OptionType.NUMBER, new ArrayList<String>(Arrays.asList(".*\\.chant$")));
+			put(OptionType.BEAUTY, new ArrayList<String>(Arrays.asList("^[1-4]$")));
 			put(OptionType.FOLDER, new ArrayList<String>(Arrays.asList("^[a-zA-Z]+$","^[a-zA-Z]+$")));
 		}
 	};
 	
-	private ArrayList<OptionType> optionList;
+	private static ArrayList<ArrayList<OptionType>> template = new ArrayList<ArrayList<OptionType>>() {
+		{
+			add(new ArrayList<OptionType>(Arrays.asList(OptionType.NAME)));
+			add(new ArrayList<OptionType>(Arrays.asList(OptionType.HELP)));
+			add(new ArrayList<OptionType>(Arrays.asList(OptionType.MIDI)));
+			add(new ArrayList<OptionType>(Arrays.asList(OptionType.LILYPOND)));
+			add(new ArrayList<OptionType>(Arrays.asList(OptionType.NUMBER)));
+			add(new ArrayList<OptionType>(Arrays.asList(OptionType.BEAUTY,OptionType.MIDI)));
+			add(new ArrayList<OptionType>(Arrays.asList(OptionType.BEAUTY,OptionType.LILYPOND)));
+			add(new ArrayList<OptionType>(Arrays.asList(OptionType.FOLDER)));
+		}
+	};
 	
-	public OptionParser(String[] args) throws UnknownOptionException {
-		optionList = new ArrayList<OptionType>();
-		/*for(String str : args) {
-			if(str.startsWith("-")) {
-				if(optionMatching.get(str) != null) {
-					checkArgs(optionMatching.get(str));
-				} else {
-					throw new UnknownOptionException(str);
-				}
+	private Hashtable<OptionType,ArrayList<String>> optionList;
+	private String[] args;
+	
+	public OptionParser(String[] args) throws IllegalArgumentException, UnknownOptionException {
+		this.optionList = new Hashtable<OptionType,ArrayList<String>>();
+		this.args = args;
+		parseOption();
+		validateTemplate();
+	}
+	
+	public void validateTemplate() {
+		for(ArrayList<OptionType> list : template) {
+			if(list.containsAll(optionList.keySet())) {
+				return;
 			}
-		}*/
+		}
+		throw new IllegalArgumentException("Cette combinaison d'argument n'est pas éxécutable");
+	}
+	
+	public void parseOption() throws IllegalArgumentException, UnknownOptionException {
+		ArrayList<String> temp = new ArrayList<String>();
+		ArrayList arg;
+		for(String str : args) {
+			if(str.startsWith("-") && !str.equals(args[0])) {
+				arg = checkArg(temp);
+				optionList.put((OptionType)arg.get(0),(ArrayList<String>) arg.get(1));
+				temp = new ArrayList<String>();
+			}
+			temp.add(str);
+		}
+		arg = checkArg(temp);
+		optionList.put((OptionType)arg.get(0),(ArrayList<String>) arg.get(1));
 	}
 	
 	/*
 	 * Lève une exception si la liste d'argument donnée n'est pas conforme
 	 */
-	public void checkArg(ArrayList<String> arg) throws UnknownOptionException, IllegalArgumentException {
+	public ArrayList checkArg(ArrayList<String> arg) throws UnknownOptionException, IllegalArgumentException {
+		ArrayList<String> params = new ArrayList<String>();
 		OptionType option = optionMatching.get(arg.get(0));
 		if(option != null) {
 			if(arg.size()-1 == argsMatching.get(option).size()) {
-				for(int i = 1; i < argsMatching.get(option).size(); i++) {
-					if(!arg.get(i).matches(argsMatching.get(option).get(i))) throw new IllegalArgumentException("Argument invalide : "+arg.get(i));			
+				for(int i = 1; i <= argsMatching.get(option).size(); i++) {
+					if(arg.get(i).matches(argsMatching.get(option).get(i-1))) {
+						params.add(arg.get(i));
+					} else { throw new IllegalArgumentException("Argument invalide : "+arg.get(i)); }
 				}
 			} else {
 				throw new IllegalArgumentException("Nombre d'argument invalide pour : "+arg.get(0));
@@ -59,5 +92,10 @@ public class OptionParser {
 		} else {
 			throw new UnknownOptionException(arg.get(0));
 		}
+		return new ArrayList(Arrays.asList(option,params));
+	}
+	
+	public Hashtable<OptionType,ArrayList<String>> getOption() {
+		return optionList;
 	}
 }

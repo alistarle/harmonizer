@@ -1,8 +1,11 @@
 package com.harmonizer.core;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -13,11 +16,8 @@ import javax.sound.midi.Sequencer;
 
 import com.harmonizer.exceptions.ParsingException;
 import com.harmonizer.graph.Graph;
-import com.harmonizer.types.TrackType;
-import com.harmonizer.utils.ChordUtils;
 import com.harmonizer.writer.LilyWriter;
 import com.harmonizer.writer.MidiWriter;
-import com.harmonizer.utils.*;
 
 public class Song {
 
@@ -26,13 +26,18 @@ public class Song {
 	private String name;
 	private Graph graph;
 	private File input;
-	private int tick;
+	private File output;
 	public static int duration;
 	public static int node;
-
-	public Song(File input, int tick) {
+	public static int harmonisation;
+	
+	public Song(File input) {
+		this(input, null);
+	}
+	
+	public Song(File input, File output) {
 		this.input = input;
-		this.tick = tick;
+		this.output = output;
 		this.readFromFile();
 		System.out.print("Timeline : ");
 		this.generateTimeline(0, 0, 0);
@@ -41,14 +46,14 @@ public class Song {
 	}
 
 	public void writeToMidi() {
-		MidiWriter mw = new MidiWriter("song", tick);
+		MidiWriter mw = new MidiWriter(name);
 		mw.writeTrack(trackList);
 		mw.close();
-		mw.write();
+		mw.write(output.getName().split("\\.")[0]);
 	}
 
 	public void writeToLily() {
-		LilyWriter lw = new LilyWriter("song", trackList);
+		LilyWriter lw = new LilyWriter(output.getName().split("\\.")[0], name, trackList);
 		lw.generateLily();
 		lw.writeLily();
 	}
@@ -77,10 +82,18 @@ public class Song {
 	public void generateGraph() {
 		this.graph = new Graph(trackList, timeline);
 	}
+	
+	public int getHarmonisation() {
+		return this.harmonisation;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
 
 	public void playSong() throws MidiUnavailableException,
 			InvalidMidiDataException, IOException {
-		Sequence sequence = MidiSystem.getSequence(new File("song.mid"));
+		Sequence sequence = MidiSystem.getSequence(new File(output.getName().split("\\.")[0]+".mid"));
 		Sequencer sequencer = MidiSystem.getSequencer();
 		sequencer.open();
 		sequencer.setSequence(sequence);
@@ -89,20 +102,25 @@ public class Song {
 
 	private void readFromFile() {
 		String content = "";
-		try {
-			FileInputStream fis = new FileInputStream(input);
-			byte[] buf = new byte[1];
-			int n = 0;
-			while ((n = fis.read(buf)) >= 0) {
-				content += ((char) buf[0]);
+		
+		try{
+			InputStream ips=new FileInputStream(input); 
+			InputStreamReader ipsr=new InputStreamReader(ips);
+			BufferedReader br=new BufferedReader(ipsr);
+			String ligne;
+			while ((ligne=br.readLine())!=null){
+				content+=ligne+"\n";
 			}
-			System.out.println("Lecture terminée : " + content);
-		} catch (IOException e) {
-			e.printStackTrace();
+			br.close(); 
+			this.name = content.split("\n")[0];
+			System.out.println(name+" : " + content.split("\n")[1]);
+		}		
+		catch (Exception e){
+			System.out.println(e.toString());
 		}
 
 		if (content != null) {
-			String[] noteArray = content.split(" ");
+			String[] noteArray = content.split("\n")[1].split(" ");
 			ArrayList<Note> noteList = new ArrayList<Note>();
 			for (String stringNote : noteArray) {
 				try {
@@ -114,7 +132,6 @@ public class Song {
 				}
 			}
 			System.out.println("Durée du chant : " + duration);
-			Song.duration = duration;
 			trackList.add(noteList);
 			trackList.add(new ArrayList<Note>());
 			trackList.add(new ArrayList<Note>());
