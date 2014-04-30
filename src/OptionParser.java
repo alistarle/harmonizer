@@ -8,12 +8,20 @@ import com.harmonizer.types.OptionType;
 
 public class OptionParser {
 	
+	/**
+	 * Hashtable associant des chaines brutes a un élément d'une liste fini d'Option
+	 * @see OptionType
+	 */
 	private static Hashtable<String, OptionType> optionMatching = new Hashtable<String, OptionType>() {
 		{
 			put("-name",OptionType.NAME); put("-h",OptionType.HELP); put("-midi",OptionType.MIDI); put("-ly",OptionType.LILYPOND); put("-nombre",OptionType.NUMBER); put("-beaute",OptionType.BEAUTY); put("-w",OptionType.FOLDER);
 		}
 	};
 	
+	/**
+	 * Hashtable associant une Option à des regex representant ses arguments
+	 * @see OptionType
+	 */
 	private static Hashtable<OptionType, ArrayList<String>> argsMatching = new Hashtable<OptionType, ArrayList<String>>() {
 		{
 			put(OptionType.NAME, new ArrayList<String>());
@@ -26,6 +34,10 @@ public class OptionParser {
 		}
 	};
 	
+	/**
+	 * Liste de combinaisons possible d'Option utilisés par le programme
+	 * @see OptionType
+	 */
 	private static ArrayList<ArrayList<OptionType>> template = new ArrayList<ArrayList<OptionType>>() {
 		{
 			add(new ArrayList<OptionType>(Arrays.asList(OptionType.NAME)));
@@ -39,9 +51,22 @@ public class OptionParser {
 		}
 	};
 	
+	/**
+	 * Hashtable des options et de ses arguments une fois traité
+	 */
 	private Hashtable<OptionType,ArrayList<String>> optionList;
+	
+	/**
+	 * Arguments brut sous forme de tableau de String
+	 */
 	private String[] args;
 	
+	/**
+	 * Constructeur qui traite automatiquement le tableau de String en Hashtable
+	 * @param args Arguments brut donné lors de l'éxécution du programme
+	 * @throws IllegalArgumentException
+	 * @throws UnknownOptionException
+	 */
 	public OptionParser(String[] args) throws IllegalArgumentException, UnknownOptionException {
 		this.optionList = new Hashtable<OptionType,ArrayList<String>>();
 		this.args = args;

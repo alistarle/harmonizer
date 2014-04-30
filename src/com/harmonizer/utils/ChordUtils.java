@@ -10,39 +10,23 @@ import com.harmonizer.types.NoteType;
 
 public class ChordUtils {
 
-	private static Chord I = new Chord(new Note(NoteType.DO), new Note(
-			NoteType.MI), new Note(NoteType.SOL));
-	private static Chord II = new Chord(new Note(NoteType.RE), new Note(
-			NoteType.FA), new Note(NoteType.LA));
-	private static Chord III = new Chord(new Note(NoteType.MI), new Note(
-			NoteType.SOL), new Note(NoteType.SI));
-	private static Chord IVa = new Chord(new Note(NoteType.FA), new Note(
-			NoteType.LA), new Note(NoteType.DO));
-	private static Chord IVb = new Chord(new Note(NoteType.FA), new Note(
-			NoteType.LA), new Note(NoteType.DO));
-	private static Chord V = new Chord(new Note(NoteType.SOL), new Note(
-			NoteType.SI), new Note(NoteType.RE));
-	private static Chord VI = new Chord(new Note(NoteType.LA), new Note(
-			NoteType.DO), new Note(NoteType.MI));
-	private static Chord VII = new Chord(new Note(NoteType.SI), new Note(
-			NoteType.RE), new Note(NoteType.FA));
+	private static Chord I = new Chord(new Note(NoteType.DO), new Note(NoteType.MI), new Note(NoteType.SOL));
+	private static Chord II = new Chord(new Note(NoteType.RE), new Note(NoteType.FA), new Note(NoteType.LA));
+	private static Chord III = new Chord(new Note(NoteType.MI), new Note(NoteType.SOL), new Note(NoteType.SI));
+	private static Chord IVa = new Chord(new Note(NoteType.FA), new Note(NoteType.LA), new Note(NoteType.DO));
+	private static Chord IVb = new Chord(new Note(NoteType.FA), new Note(NoteType.LA), new Note(NoteType.DO));
+	private static Chord V = new Chord(new Note(NoteType.SOL), new Note(NoteType.SI), new Note(NoteType.RE));
+	private static Chord VI = new Chord(new Note(NoteType.LA), new Note(NoteType.DO), new Note(NoteType.MI));
+	private static Chord VII = new Chord(new Note(NoteType.SI), new Note(NoteType.RE), new Note(NoteType.FA));
 
-	private static ArrayList<Chord> nextI = new ArrayList<Chord>(Arrays.asList(
-			I, II, III, IVa, V, VI, VII));
-	private static ArrayList<Chord> nextII = new ArrayList<Chord>(
-			Arrays.asList(V, VII));
-	private static ArrayList<Chord> nextIII = new ArrayList<Chord>(
-			Arrays.asList(II, III, IVa, V, VI, VII));
-	private static ArrayList<Chord> nextIVa = new ArrayList<Chord>(
-			Arrays.asList(I, II, III, IVa, V, VI, VII));
-	private static ArrayList<Chord> nextIVb = new ArrayList<Chord>(
-			Arrays.asList(I));
-	private static ArrayList<Chord> nextV = new ArrayList<Chord>(Arrays.asList(
-			I, III, IVb, VI));
-	private static ArrayList<Chord> nextVI = new ArrayList<Chord>(
-			Arrays.asList(II, III, IVa, V));
-	private static ArrayList<Chord> nextVII = new ArrayList<Chord>(
-			Arrays.asList(I, III));
+	private static ArrayList<Chord> nextI = new ArrayList<Chord>(Arrays.asList(I, II, III, IVa, V, VI, VII));
+	private static ArrayList<Chord> nextII = new ArrayList<Chord>(Arrays.asList(V, VII));
+	private static ArrayList<Chord> nextIII = new ArrayList<Chord>(Arrays.asList(II, III, IVa, V, VI, VII));
+	private static ArrayList<Chord> nextIVa = new ArrayList<Chord>(Arrays.asList(I, II, III, IVa, V, VI, VII));
+	private static ArrayList<Chord> nextIVb = new ArrayList<Chord>(Arrays.asList(I));
+	private static ArrayList<Chord> nextV = new ArrayList<Chord>(Arrays.asList(I, III, IVb, VI));
+	private static ArrayList<Chord> nextVI = new ArrayList<Chord>(Arrays.asList(II, III, IVa, V));
+	private static ArrayList<Chord> nextVII = new ArrayList<Chord>(Arrays.asList(I, III));
 
 	private static Hashtable<Chord, ArrayList<Chord>> nextChord = new Hashtable<Chord, ArrayList<Chord>>() {
 		{
@@ -85,16 +69,6 @@ public class ChordUtils {
 	}
 
 	public static ArrayList<Chord> getChords(Chord chord, Note note) {
-		ArrayList<Chord> list = new ArrayList<Chord>();
-		for (Chord c : getNext(chord)) {
-			if (c.contains(note)) {
-				list.add(c);
-			}
-		}
-		return list;
-	}
-
-	public static ArrayList<Chord> getNext(Chord chord, Note note) {
 		ArrayList<Chord> list = new ArrayList<Chord>();
 		for (Chord c : getNext(chord)) {
 			if (c.contains(note)) {

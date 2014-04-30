@@ -70,6 +70,10 @@ public class NoteSet {
 	public ArrayList<Note> getNote() {
 		return new ArrayList<Note>(Arrays.asList(soprano, alto, tenor, basse));
 	}
+	
+	public ArrayList<Note> getChordNote() {
+		return new ArrayList<Note>(Arrays.asList(soprano, alto, tenor));
+	}
 
 	public Note getSoprano() {
 		return soprano;

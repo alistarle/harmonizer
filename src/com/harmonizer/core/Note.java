@@ -18,8 +18,7 @@ public class Note {
 			duration = Integer.valueOf(noteData[1]);
 			if (!noteData[0].equals("-")) {
 				name = noteData[0].substring(0, noteData[0].length() - 1);
-				octave = Integer.valueOf(noteData[0].substring(
-						noteData[0].length() - 1, noteData[0].length()));
+				octave = Integer.valueOf(noteData[0].substring(noteData[0].length() - 1, noteData[0].length()));
 				midi = NoteUtils.getMidi(name, octave);
 				code = NoteUtils.getCode(name, octave);
 				lilypond = NoteUtils.getLilypond(name, octave, duration);

@@ -11,12 +11,9 @@ import com.harmonizer.types.TrackType;
 public class NoteUtils {
 
 	// Tableau de correspondance
-	private static ArrayList<String> code = new ArrayList<String>(
-			Arrays.asList("do", "re", "mi", "fa", "sol", "la", "si"));
-	private static ArrayList<String> lilypond = new ArrayList<String>(
-			Arrays.asList(",", "", "'", "''"));
-	private static ArrayList<String> lilypondDuration = new ArrayList<String>(
-			Arrays.asList("4", "2", "2.", "1"));
+	private static ArrayList<String> code = new ArrayList<String>(Arrays.asList("do", "re", "mi", "fa", "sol", "la", "si"));
+	private static ArrayList<String> lilypond = new ArrayList<String>(Arrays.asList(",", "", "'", "''"));
+	private static ArrayList<String> lilypondDuration = new ArrayList<String>(Arrays.asList("4", "2", "2.", "1"));
 	private static Hashtable<String, Integer> midi = new Hashtable<String, Integer>() {
 		{
 			put("do1", 24);
@@ -121,9 +118,7 @@ public class NoteUtils {
 		}
 
 		for (Note note : noteList) {
-			for (Integer i : trackSorted.get(track.toString()).get(
-					note.getName())) {
-				Note temp = new Note(note.getName(), i);
+			for (Integer i : trackSorted.get(track.toString()).get(note.getName())) {
 				resultList.add(new Note(note.getName(), i));
 			}
 		}

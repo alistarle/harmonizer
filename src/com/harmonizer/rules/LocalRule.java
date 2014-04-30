@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.harmonizer.core.NoteSet;
 
 public abstract class LocalRule {
-	abstract boolean validate(NoteSet ns);
+	public abstract boolean validate(NoteSet ns);
 
 	public void simplify(ArrayList<NoteSet> nsl) {
 		for (int i = 0; i < nsl.size(); i++) {

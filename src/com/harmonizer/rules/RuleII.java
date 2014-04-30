@@ -6,7 +6,7 @@ import com.harmonizer.core.NoteSet;
 
 public class RuleII extends LocalRule {
 
-	boolean validate(NoteSet ns) {
+	public boolean validate(NoteSet ns) {
 		return (ns.getBasse().getCode() < ns.getTenor().getCode()
 				&& ns.getTenor().getCode() < ns.getAlto().getCode() && ns
 				.getAlto().getCode() < ns.getSoprano().getCode());

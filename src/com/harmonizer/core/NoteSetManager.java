@@ -30,10 +30,8 @@ public class NoteSetManager {
 
 	private void genNoteSets(Chord chord) {
 		for (Note alto : NoteUtils.getNote(chord, TrackType.ALTO, soprano)) {
-			for (Note tenor : NoteUtils
-					.getNote(chord, TrackType.TENOR, soprano)) {
-				for (Note basse : NoteUtils.getNote(chord, TrackType.BASSE,
-						soprano)) {
+			for (Note tenor : NoteUtils.getNote(chord, TrackType.TENOR, soprano)) {
+				for (Note basse : NoteUtils.getNote(chord, TrackType.BASSE,soprano)) {
 					noteSets.add(new NoteSet(soprano, alto, tenor, basse, chord));
 				}
 			}

@@ -14,14 +14,35 @@ import com.harmonizer.types.OptionType;
 import com.harmonizer.writer.HTMLWriter;
 
 public class Harmonizer {
+	/* Documentation tag for Doxygen
+	 */
 
+	/*! \mainpage PLEGAT Documentation
+	 *
+	 * \section intro_sec Introduction
+	 *
+	 * This is the Plegat documentation.
+	 *
+	 * \section install_sec Installation
+	 *
+	 * \subsection tools_subsec Tools required&#58;
+	 * - Java Runtime Environment &#40;JRE&#41; 1.4.2 or later &#40;<small><a href="http&#58;//java.sun.com/">Java Web Site etc etc...
+	 *
+	 * \subsection running Running the program
+	 * In a command window, etc etc...
+	 *
+	 * \section copyright Copyright and License
+	 * This license applies to etc etc...
+	 *
+	 * <BR><BR>
+	 *
+	 */
 	/**
 	 * @param args
 	 * @throws IOException
 	 * @throws InvalidMidiDataException
 	 * @throws MidiUnavailableException
 	 */
-	public static boolean launch = false;
 	public static Hashtable<OptionType,ArrayList<String>> option;
 
 	public static void main(String[] args) throws MidiUnavailableException,
@@ -35,6 +56,15 @@ public class Harmonizer {
 		}
 	}
 	
+	/**
+	 * Lance les differentes composantes du programme en fonction des arguments donnés
+	 * @see OptionParser
+	 * @param option Liste des arguments ordonnés sous forme d'une Hashtable
+	 * @throws UnknownOptionException
+	 * @throws MidiUnavailableException
+	 * @throws InvalidMidiDataException
+	 * @throws IOException
+	 */
 	public static void traitOption(Hashtable<OptionType,ArrayList<String>> option) throws UnknownOptionException, MidiUnavailableException, InvalidMidiDataException, IOException {
 		if(option.containsKey(OptionType.NAME)) {		
 			displayCredit();
@@ -53,6 +83,9 @@ public class Harmonizer {
 		}
 	}
 	
+	/**
+	 * Affiche les noms et prénoms des auteurs du programme
+	 */
 	public static void displayCredit() {
 		System.out.println("============= Credits =============");
 		System.out.println("\tVictor Coutellier");
@@ -61,6 +94,9 @@ public class Harmonizer {
 		System.out.println("\tMerieme Belmeknassi");			
 	}
 	
+	/**
+	 * Affiche l'aide du programme
+	 */
 	public static void displayHelp() {
 		System.out.println("============= AIDE =============");
 		System.out.println("-name\t: Affiche les credits du programme");
@@ -73,11 +109,20 @@ public class Harmonizer {
 	
 	}
 	
+	/**
+	 * Affiche le nombre d'harmonisations possible d'un chant donné
+	 */
 	public static void calcNumber() {
 		Song song = new Song(new File(option.get(OptionType.NUMBER).get(0)));
 		System.out.println("Il y a "+song.getHarmonisation()+" harmonisations possible de "+song.getName());
 	}
 	
+	/**
+	 * Genere un fichier Midi comportant une harmonisation d'un chant donné, joue également le fichier produit
+	 * @throws MidiUnavailableException
+	 * @throws InvalidMidiDataException
+	 * @throws IOException
+	 */
 	public static void calcMidi() throws MidiUnavailableException, InvalidMidiDataException, IOException {
 		if(option.containsKey(OptionType.BEAUTY)) {
 			System.out.println("Vous avez demandé un critères de beauté de "+option.get(OptionType.BEAUTY).get(0)
@@ -88,6 +133,9 @@ public class Harmonizer {
 		song.playSong();
 	}
 	
+	/**
+	 * Genere un fichier .ly executable par lilypond afin de créer une partition d'une harmonisation d'un chant donné
+	 */
 	public static void calcLily() {
 		if(option.containsKey(OptionType.BEAUTY)) {
 			System.out.println("Vous avez demandé un critères de beauté de "+option.get(OptionType.BEAUTY).get(0)
@@ -97,6 +145,9 @@ public class Harmonizer {
 		song.writeToLily();		
 	}
 	
+	/**
+	 * Lit les fichiers chant present d'un un repertoire et calcul leur harmonisation ainsi qu'une synthèse HTML
+	 */
 	public static void calcFolder() {
 		File inFolder = new File(option.get(OptionType.FOLDER).get(0));
 		File outFolder = new File(option.get(OptionType.FOLDER).get(1));
@@ -112,8 +163,6 @@ public class Harmonizer {
 				songList.add(song);
 			}
 		}
-		
-		if(!outFolder.exists() || !outFolder.isDirectory()) outFolder.mkdir();
 		new HTMLWriter(option.get(OptionType.FOLDER).get(1), songList, harmonisation);
 	}
 

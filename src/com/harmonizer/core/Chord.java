@@ -69,7 +69,7 @@ public class Chord implements Cloneable {
 		return "Chord [tonic=" + tonic.getName() + ", third=" + third.getName()
 				+ ", fifth=" + fifth.getName() + "]";
 	}
-
+	
 	public ChordType getNature(Note note) {
 		if (note.getName().equals(this.tonic.getName()))
 			return ChordType.TONIC;
