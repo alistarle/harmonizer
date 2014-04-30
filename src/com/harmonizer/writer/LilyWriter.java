@@ -67,7 +67,6 @@ public class LilyWriter {
 	 */
 	public void writeLily() {
 		try {
-			System.out.println(lilypond);
 			fw = new FileWriter(file);
 			fw.write(lilypond);
 			fw.close();

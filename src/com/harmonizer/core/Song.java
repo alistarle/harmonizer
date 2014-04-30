@@ -16,6 +16,8 @@ import javax.sound.midi.Sequencer;
 
 import com.harmonizer.exceptions.ParsingException;
 import com.harmonizer.graph.Graph;
+import com.harmonizer.graph.Node;
+import com.harmonizer.utils.NodeUtils;
 import com.harmonizer.writer.LilyWriter;
 import com.harmonizer.writer.MidiWriter;
 /**
@@ -100,9 +102,8 @@ public class Song {
 		this.output = output;
 		this.folder = folder+File.separator;
 		this.readFromFile();
-		System.out.print("Timeline : ");
 		this.generateTimeline(0, 0, 0);
-		System.out.println();
+		NodeUtils.nodeList = new ArrayList<Node>();
 		this.generateGraph();		
 	}
 
@@ -137,15 +138,9 @@ public class Song {
 	public boolean generateTimeline(int i, int timeline, int timelineTemp) {
 		if (timeline < this.duration) {
 			this.timeline.add(i);
-			System.out.print(i + " ");
-			if (trackList.get(0).get(i).getDuration() + timelineTemp - 1 == timeline
-					&& (i != trackList.get(0).size() - 1 && trackList.get(0)
-							.get(i + 1).getName() != "-")) {
+			if (trackList.get(0).get(i).getDuration() + timelineTemp - 1 == timeline && (i != trackList.get(0).size() - 1 && trackList.get(0).get(i + 1).getName() != "-")) {
 				return generateTimeline(i + 1, timeline + 1, timeline + 1);
-			} else if (i != trackList.get(0).size() - 1
-					&& trackList.get(0).get(i).getDuration()
-							+ trackList.get(0).get(i + 1).getDuration()
-							+ timelineTemp - 1 == timeline) {
+			} else if (i != trackList.get(0).size() - 1 && trackList.get(0).get(i).getDuration() + trackList.get(0).get(i + 1).getDuration() + timelineTemp - 1 == timeline) {
 				return generateTimeline(i + 2, timeline + 1, timeline + 1);
 			} else {
 				return generateTimeline(i, timeline + 1, timelineTemp);
@@ -205,7 +200,6 @@ public class Song {
 			}
 			br.close(); 
 			this.name = content.split("\n")[0];
-			System.out.println(name+" : " + content.split("\n")[1]);
 		}		
 		catch (Exception e){
 			System.out.println(e.toString());
@@ -223,7 +217,6 @@ public class Song {
 					e.printStackTrace();
 				}
 			}
-			System.out.println("Durée du chant : " + duration);
 			trackList.add(noteList);
 			trackList.add(new ArrayList<Note>());
 			trackList.add(new ArrayList<Note>());
