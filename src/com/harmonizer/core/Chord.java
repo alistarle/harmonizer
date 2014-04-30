@@ -9,12 +9,34 @@ import com.harmonizer.rules.RuleII;
 import com.harmonizer.types.ChordType;
 import com.harmonizer.utils.ChordUtils;
 
+/**
+ * Representation d'un accord dans un chant/jeux de note
+ * @author alistarle
+ *
+ */
 public class Chord implements Cloneable {
 
+	/**
+	 * Tonique de l'accord
+	 */
 	private Note tonic;
+	
+	/**
+	 * Tièrce de l'accord
+	 */
 	private Note third;
+	
+	/**
+	 * Quinte de l'accord
+	 */
 	private Note fifth;
 
+	/**
+	 * Crée un accord à partir de la tonique, la tièrce et la quinte de ce dernier
+	 * @param tonic
+	 * @param third
+	 * @param fifth
+	 */
 	public Chord(Note tonic, Note third, Note fifth) {
 		this.tonic = tonic;
 		this.third = third;
@@ -58,6 +80,11 @@ public class Chord implements Cloneable {
 		return true;
 	}
 
+	/**
+	 * Cherche une note dans un accord, la recherche ne s'effectue que par le nom de la note
+	 * @param note La note a chercher dans l'accord
+	 * @return Si la note est contenue dans l'accord
+	 */
 	public boolean contains(Note note) {
 		return note.getName().equals(this.tonic.getName())
 				|| note.getName().equals(this.third.getName())
@@ -70,6 +97,11 @@ public class Chord implements Cloneable {
 				+ ", fifth=" + fifth.getName() + "]";
 	}
 	
+	/**
+	 * Retourne la nature de la note donnée en paramètre 
+	 * @param note La note a chercher dans l'accord
+	 * @return Le ChordType representant la nature de la note dans l'accord
+	 */
 	public ChordType getNature(Note note) {
 		if (note.getName().equals(this.tonic.getName()))
 			return ChordType.TONIC;

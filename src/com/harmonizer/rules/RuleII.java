@@ -3,7 +3,11 @@ package com.harmonizer.rules;
 import java.util.ArrayList;
 
 import com.harmonizer.core.NoteSet;
-
+/**
+ * Implementation de la IIème règle locale
+ * @author alistarle
+ *
+ */
 public class RuleII extends LocalRule {
 
 	public boolean validate(NoteSet ns) {

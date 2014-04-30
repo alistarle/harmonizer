@@ -2,7 +2,11 @@ package com.harmonizer.rules;
 
 import com.harmonizer.core.Note;
 import com.harmonizer.core.NoteSet;
-
+/**
+ * Implementation de la VIème règle d'enchainement, cette règle est decoupée en 3 assertions différentes pour clarifier les calculs
+ * @author alistarle
+ *
+ */
 public class RuleVI extends LinkRule {
 
 	private NoteSet ns, ns2;

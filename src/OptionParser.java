@@ -5,7 +5,11 @@ import java.util.Hashtable;
 import com.harmonizer.exceptions.UnknownOptionException;
 import com.harmonizer.types.OptionType;
 
-
+/**
+ * Traite une liste d'argument brute en Hashtable ordonnée
+ * @author alistarle
+ *
+ */
 public class OptionParser {
 	
 	/**
@@ -74,6 +78,9 @@ public class OptionParser {
 		validateTemplate();
 	}
 	
+	/**
+	 * Valide la combinaison d'Option, ou lève une exception si elle est impossible
+	 */
 	public void validateTemplate() {
 		for(ArrayList<OptionType> list : template) {
 			if(list.containsAll(optionList.keySet())) {
@@ -83,6 +90,12 @@ public class OptionParser {
 		throw new IllegalArgumentException("Cette combinaison d'argument n'est pas éxécutable");
 	}
 	
+	/**
+	 * Decoupe le tableau d'argument en des ArrayList<String> representant chacun une option et ses arguments propre afin de les verifier
+	 * @see OptionParser#checkArg(ArrayList);
+	 * @throws IllegalArgumentException
+	 * @throws UnknownOptionException
+	 */
 	public void parseOption() throws IllegalArgumentException, UnknownOptionException {
 		ArrayList<String> temp = new ArrayList<String>();
 		ArrayList arg;
@@ -98,8 +111,8 @@ public class OptionParser {
 		optionList.put((OptionType)arg.get(0),(ArrayList<String>) arg.get(1));
 	}
 	
-	/*
-	 * Lève une exception si la liste d'argument donnée n'est pas conforme
+	/**
+	 * Vérifie l'Option et lève une exception si la liste d'argument donnée n'est pas conforme (Option inconnue, Nombre d'argument ou argument invalide)
 	 */
 	public ArrayList checkArg(ArrayList<String> arg) throws UnknownOptionException, IllegalArgumentException {
 		ArrayList<String> params = new ArrayList<String>();
@@ -120,6 +133,10 @@ public class OptionParser {
 		return new ArrayList(Arrays.asList(option,params));
 	}
 	
+	/**
+	 * Retourne la liste des options traité
+	 * @return Hashtable des option du programme
+	 */
 	public Hashtable<OptionType,ArrayList<String>> getOption() {
 		return optionList;
 	}

@@ -38,13 +38,17 @@ public class Harmonizer {
 	 *
 	 */
 	/**
+	 * Liste des option du programme une fois traitée
+	 * @see OptionParser
+	 */
+	public static Hashtable<OptionType,ArrayList<String>> option;
+	
+	/**
 	 * @param args
 	 * @throws IOException
 	 * @throws InvalidMidiDataException
 	 * @throws MidiUnavailableException
 	 */
-	public static Hashtable<OptionType,ArrayList<String>> option;
-
 	public static void main(String[] args) throws MidiUnavailableException,
 			InvalidMidiDataException, IOException {
 		try {
@@ -146,7 +150,7 @@ public class Harmonizer {
 	}
 	
 	/**
-	 * Lit les fichiers chant present d'un un repertoire et calcul leur harmonisation ainsi qu'une synthèse HTML
+	 * Lit les fichiers chant present dans un repertoire et calcul leur harmonisation ainsi qu'une synthèse HTML
 	 */
 	public static void calcFolder() {
 		File inFolder = new File(option.get(OptionType.FOLDER).get(0));

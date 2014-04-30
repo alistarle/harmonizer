@@ -6,16 +6,49 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.harmonizer.core.Song;
-
+/**
+ * Class generant une synthèse HTML dans le dossier donné, sachant la liste des Chant ainsi que le nombre de leur harmonisations
+ * @author alistarle
+ *
+ */
 public class HTMLWriter {
 	
+	/**
+	 * Chaine representant l'HTML à écrire dans l'index.html
+	 */
 	private String HTML;
+	
+	/**
+	 * Chaine representant le CSS à écrire dans le style.css
+	 */
 	private String CSS;
+	
+	/**
+	 * Fichier de sortie HTML
+	 */
 	private File outputHTML;
+	
+	/**
+	 * Fichier de sortie CSS
+	 */
 	private File outputCSS;
+	
+	/**
+	 * Liste des chant a integrer a la synthèse
+	 */
 	private ArrayList<Song> songList;
+	
+	/**
+	 * Nombre des harmonisations pour chaque chant
+	 */
 	private ArrayList<Integer> harmonisation;
 	
+	/**
+	 * Genère un fichier HTML et CSS de synthèse du programme
+	 * @param output Le nom du dossier de sortie
+	 * @param songList La liste des chant
+	 * @param harmonisation La liste du nombre des harmonisation de chaque chant
+	 */
 	public HTMLWriter(String output, ArrayList<Song> songList, ArrayList<Integer> harmonisation) {
 		this.songList = songList;
 		this.harmonisation = harmonisation;
@@ -26,6 +59,9 @@ public class HTMLWriter {
 		writeHTML();
 	}
 	
+	/**
+	 * Genère l'HTML en fonction des chant et harmonisation données
+	 */
 	public void generateHTML() {
 		HTML+="<!DOCTYPE html>\n"
 				+ "<html lang=\"fr\">\n"
@@ -44,6 +80,9 @@ public class HTMLWriter {
 		HTML+="</table>";
 	}
 	
+	/**
+	 * Ecris les fichiers index.html et style.css dans le dossier spécifié
+	 */
 	public void writeHTML() {
 		try {
 			System.out.println(HTML);

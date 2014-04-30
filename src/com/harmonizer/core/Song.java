@@ -18,27 +18,82 @@ import com.harmonizer.exceptions.ParsingException;
 import com.harmonizer.graph.Graph;
 import com.harmonizer.writer.LilyWriter;
 import com.harmonizer.writer.MidiWriter;
-
+/**
+ * Class representative d'un chant dans le programme
+ * @author alistarle
+ *
+ */
 public class Song {
 
+	/**
+	 * Liste des note par voix
+	 */
 	private ArrayList<ArrayList<Note>> trackList = new ArrayList<ArrayList<Note>>();
+	
+	/**
+	 * Liste associant a chaque temps une note de soprano a utiliser comme reference
+	 */
 	private ArrayList<Integer> timeline = new ArrayList<Integer>();
+	
+	/**
+	 * Nom du chant a écrire dans les fichiers
+	 */
 	private String name;
+	
+	/**
+	 * Dossier dans lequel ecrire les fichiers (utilisé uniquement lors de l'option -w)
+	 */
 	private String folder;
+	
+	/**
+	 * Graphe relatif au chant
+	 */
 	private Graph graph;
+	
+	/**
+	 * Fichier d'entrée dans lequel lire le chant
+	 */
 	private File input;
+	
+	/**
+	 * Fichier de sortie dans lequel écrire le midi/lilypond
+	 */
 	private File output;
+	
+	/**
+	 * Durée du chant, accessible partout dans le programme
+	 */
 	public static int duration;
+	
+	/**
+	 * Nombres des harmonisation, accessible partout dans le programme
+	 */
 	public static int harmonisation;
 	
+	/**
+	 * Crée un chant a partir d'un fichier d'entrée, utile lorsqu'il n'y a pas de sortie (option -nombre)
+	 * @param input
+	 */
 	public Song(File input) {
 		this(input, null);
 	}
 	
+	/**
+	 * Crée un chant a partir d'un fichier d'entrée et de sortie, utile lorsqu'il s'agit d'écrire une sortie midi/lilypond
+	 * @param input
+	 * @param output
+	 */
 	public Song(File input, File output) {
 		this(input,output,"");
 	}
 	
+	/**
+	 * Crée un chant a partir d'un fichier d'entrée, de sortie, et d'un dossier dans lequel écrire les sortie, utile lors l'option -w,
+	 * le chant est automatiquement lu a partir du fichier d'entrée, la timeline puis le graphe generé
+	 * @param input
+	 * @param output
+	 * @param folder
+	 */
 	public Song(File input, File output, String folder) {
 		this.duration = 0;
 		this.input = input;
@@ -51,6 +106,10 @@ public class Song {
 		this.generateGraph();		
 	}
 
+	/**
+	 * Ecris la liste des notes par voix dans un fichier .mid
+	 * @see MidiWriter
+	 */
 	public void writeToMidi() {
 		MidiWriter mw = new MidiWriter(name);
 		mw.writeTrack(trackList);
@@ -58,12 +117,23 @@ public class Song {
 		mw.write(folder+output.getName().split("\\.")[0]);
 	}
 
+	/**
+	 * Ecris la liste des notes par voix dans un fichier .ly
+	 * @see LilyWriter
+	 */
 	public void writeToLily() {
 		LilyWriter lw = new LilyWriter(folder+output.getName().split("\\.")[0], name, trackList);
 		lw.generateLily();
 		lw.writeLily();
 	}
 
+	/**
+	 * Genère récursivement la timeline du chant
+	 * @param i
+	 * @param timeline
+	 * @param timelineTemp
+	 * @return
+	 */
 	public boolean generateTimeline(int i, int timeline, int timelineTemp) {
 		if (timeline < this.duration) {
 			this.timeline.add(i);
@@ -85,6 +155,9 @@ public class Song {
 		}
 	}
 
+	/**
+	 * Genère le graphe relatif au champ en question
+	 */
 	public void generateGraph() {
 		this.graph = new Graph(trackList, timeline);
 	}
@@ -101,6 +174,12 @@ public class Song {
 		return output.getName().split("\\.")[0];
 	}
 
+	/**
+	 * Joue le fichier midi generé
+	 * @throws MidiUnavailableException
+	 * @throws InvalidMidiDataException
+	 * @throws IOException
+	 */
 	public void playSong() throws MidiUnavailableException,
 			InvalidMidiDataException, IOException {
 		Sequence sequence = MidiSystem.getSequence(new File(folder+output.getName().split("\\.")[0]+".mid"));
@@ -110,6 +189,9 @@ public class Song {
 		sequencer.start();
 	}
 
+	/**
+	 * Lit le fichier .chant, qui contient donc le nom du chant et la ligne de soprano
+	 */
 	private void readFromFile() {
 		String content = "";
 		

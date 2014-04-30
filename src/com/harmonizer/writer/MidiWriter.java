@@ -14,21 +14,38 @@ import javax.sound.midi.SysexMessage;
 import javax.sound.midi.Track;
 
 import com.harmonizer.core.Note;
-
+/**
+ * Class generant un fichier midi representant une harmonisation d'un chant
+ * @author alistarle
+ *
+ */
 public class MidiWriter {
 
 	private Sequence sec;
 	
+	/**
+	 * Liste des notes pour chaque voix
+	 */
 	private ArrayList<Track> trackList;
 	
+	/**
+	 * Nom de la piste
+	 */
 	private String name;
 
+	/**
+	 * Permet de se reperer dans l'avancement du temps lors de l'écriture
+	 */
 	private long timeline = 0;
 
 	private MidiEvent me;
 	private MetaMessage mt;
 	private ShortMessage mm;
 
+	/**
+	 * Initialise les differentes track afin d'écrire les notes, une track represente une voix
+	 * @param name
+	 */
 	public MidiWriter(String name) {
 		this.trackList = new ArrayList<Track>();
 		this.name = name;
@@ -54,6 +71,10 @@ public class MidiWriter {
 
 	}
 
+	/**
+	 * Ecris les notes sur les differentes track
+	 * @param noteList Liste des notes par voix
+	 */
 	public void writeTrack(ArrayList<ArrayList<Note>> noteList) {
 		for(int i = 0; i < noteList.size(); i++) {
 			timeline = 0;
@@ -67,6 +88,9 @@ public class MidiWriter {
 		}
 	}
 
+	/**
+	 * Ferme les differentes track
+	 */
 	public void close() {
 		try {
 			mt = new MetaMessage();
@@ -78,6 +102,10 @@ public class MidiWriter {
 		}
 	}
 
+	/**
+	 * Ecris la sequence ainsi crée dans un fichier midi
+	 * @param fileName Nom du fichier midi a creer
+	 */
 	public void write(String fileName) {
 		try {
 			File f = new File(fileName + ".mid");
@@ -86,6 +114,11 @@ public class MidiWriter {
 		}
 	}
 
+	/**
+	 * Ajoute l'appuie sur une note dans la track precisée
+	 * @param note Entier representant la note à appuyer
+	 * @param track Track sur laquelle ajouter la note
+	 */
 	public void CreateOnEvent(int note,Track track) {
 		ShortMessage myMsg = new ShortMessage();
 		try {
@@ -97,7 +130,12 @@ public class MidiWriter {
 		MidiEvent me = new MidiEvent(myMsg, timeline);
 		track.add(me);
 	}
-
+	
+	/**
+	 * Ajoute le relachement d'une note dans la track precisée
+	 * @param note Entier representant la note à relacher
+	 * @param track Track sur laquelle retirer la note
+	 */
 	public void CreateOffEvent(int note,Track track) {
 		ShortMessage myMsg = new ShortMessage();
 		try {
@@ -110,12 +148,21 @@ public class MidiWriter {
 		track.add(me);
 	}
 	
+	/**
+	 * Ajoute un event standard donnée en paramètres sur toutes les Tracks
+	 * @param me
+	 */
 	public void CreateEventForAll(MidiEvent me) {
 		for(Track track : trackList) {
 			track.add(me);
 		}
 	}
 
+	/**
+	 * Change l'instrument utilisé par toutes les track
+	 * @param instr Un entier representant l'instrument voulu
+	 * @throws InvalidMidiDataException
+	 */
 	public void changeProgram(int instr) throws InvalidMidiDataException {
 		ShortMessage mm = new ShortMessage();
 		mm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instr, 0);

@@ -5,7 +5,11 @@ import java.util.HashSet;
 import com.harmonizer.core.Note;
 import com.harmonizer.core.NoteSet;
 import com.harmonizer.types.ChordType;
-
+/**
+ * Implementation de la IIIème règle locale
+ * @author alistarle
+ *
+ */
 public class RuleIII extends LocalRule {
 
 	@Override

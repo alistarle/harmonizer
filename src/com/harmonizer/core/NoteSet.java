@@ -2,15 +2,48 @@ package com.harmonizer.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+/**
+ * Jeu de note, comprenant 1 notes pour chaque voix ainsi qu'un accord
+ * @author alistarle
+ *
+ */
 public class NoteSet {
+	
+	/**
+	 * Note soprano du jeu de note
+	 */
 	private Note soprano;
+	
+	/**
+	 * Note alto du jeu de note
+	 */
 	private Note alto;
+	
+	/**
+	 * Note tenor du jeu de note
+	 */
 	private Note tenor;
+	
+	/**
+	 * Note basse du jeu de note
+	 */
 	private Note basse;
 
+	/**
+	 * Accord du jeu de note
+	 */
 	private Chord chord;
 
+	/**
+	 * Crée un jeu de note a partir de 4 note et un accord
+	 * @see Note
+	 * @see Chord
+	 * @param soprano
+	 * @param alto
+	 * @param tenor
+	 * @param basse
+	 * @param chord
+	 */
 	public NoteSet(Note soprano, Note alto, Note tenor, Note basse, Chord chord) {
 		this.soprano = soprano;
 		this.alto = alto;
@@ -62,15 +95,28 @@ public class NoteSet {
 		return true;
 	}
 
+	/**
+	 * Indique si une note appartient ou non au jeu
+	 * @param note note a comparer
+	 * @return si la note appartient au jeu
+	 */
 	public boolean contains(Note note) {
 		return soprano.equals(note) || alto.equals(note) || tenor.equals(note)
 				|| basse.equals(note);
 	}
 
+	/**
+	 * Retourne la liste des notes composant le jeu
+	 * @return Liste des notes composant le jeu
+	 */
 	public ArrayList<Note> getNote() {
 		return new ArrayList<Note>(Arrays.asList(soprano, alto, tenor, basse));
 	}
 	
+	/**
+	 * Retourne la liste des notes du jeu, sauf la basse
+	 * @return Liste des notes composant l'accord
+	 */
 	public ArrayList<Note> getChordNote() {
 		return new ArrayList<Note>(Arrays.asList(soprano, alto, tenor));
 	}

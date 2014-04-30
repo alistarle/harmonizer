@@ -7,7 +7,11 @@ import java.util.Hashtable;
 import com.harmonizer.core.Chord;
 import com.harmonizer.core.Note;
 import com.harmonizer.types.NoteType;
-
+/**
+ * Class utilitaire sur les accord
+ * @author alistarle
+ *
+ */
 public class ChordUtils {
 
 	private static Chord I = new Chord(new Note(NoteType.DO), new Note(NoteType.MI), new Note(NoteType.SOL));
@@ -28,6 +32,9 @@ public class ChordUtils {
 	private static ArrayList<Chord> nextVI = new ArrayList<Chord>(Arrays.asList(II, III, IVa, V));
 	private static ArrayList<Chord> nextVII = new ArrayList<Chord>(Arrays.asList(I, III));
 
+	/**
+	 * Hashtable associant un accord static a une liste d'accord suivant
+	 */
 	private static Hashtable<Chord, ArrayList<Chord>> nextChord = new Hashtable<Chord, ArrayList<Chord>>() {
 		{
 			put(I, nextI);
@@ -41,23 +48,46 @@ public class ChordUtils {
 		}
 	};
 
+	/**
+	 * Retourne la liste de tous les accords possibles
+	 * @return
+	 */
 	public static ArrayList<Chord> getChords() {
 		return new ArrayList<Chord>(Arrays.asList(I, II, III, IVa, IVb, V, VI,
 				VII));
 	}
 
+	/**
+	 * Retourne la liste de tous les accords possibles a defaut du IVb inutilisable en premiere et derniere position dans l'harmonisation
+	 * @return
+	 */
 	public static ArrayList<Chord> getEdges() {
 		return new ArrayList<Chord>(Arrays.asList(I, II, III, IVa, V, VI, VII));
 	}
 
+	/**
+	 * Verifie si un acord est consideté comme un bord (c.a.d un IVb)
+	 * @param c
+	 * @return Si l'accord est consideré comme un bord ou non
+	 */
 	public static boolean isEdge(Chord c) {
 		return c.equals(IVb);
 	}
 
+	/**
+	 * Retourne la liste des accords suivant un accord
+	 * @param chord
+	 * @return
+	 */
 	public static ArrayList<Chord> getNext(Chord chord) {
 		return nextChord.get(chord);
 	}
 
+	/**
+	 * Retourne la liste des accords dans laquelle la note est présente
+	 * @param note
+	 * @return
+	 */
 	public static ArrayList<Chord> getChords(Note note) {
 		ArrayList<Chord> list = new ArrayList<Chord>();
 		for (Chord chord : getChords()) {
@@ -68,6 +98,12 @@ public class ChordUtils {
 		return list;
 	}
 
+	/**
+	 * Renvoie la liste des accord suivant dans lesquelles la note fournie est présente
+	 * @param chord
+	 * @param note
+	 * @return
+	 */
 	public static ArrayList<Chord> getChords(Chord chord, Note note) {
 		ArrayList<Chord> list = new ArrayList<Chord>();
 		for (Chord c : getNext(chord)) {

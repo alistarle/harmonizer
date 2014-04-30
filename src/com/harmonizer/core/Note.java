@@ -3,15 +3,48 @@ package com.harmonizer.core;
 import com.harmonizer.exceptions.ParsingException;
 import com.harmonizer.types.NoteType;
 import com.harmonizer.utils.NoteUtils;
-
+/**
+ * Representation d'un Note dans un chant/accord/Jeux de note ou autre
+ * @author alistarle
+ *
+ */
 public class Note {
+	
+	/**
+	 * Nom de la nom, parmis 7 possibles
+	 */
 	private String name;
+	
+	/**
+	 * Octave de la note, compris entre 1 et 4
+	 */
 	private int octave;
+	
+	/**
+	 * Valeur midi de la note
+	 */
 	private int midi;
+	
+	/**
+	 * Code representatif de la note, entre 1 et 27
+	 */
 	private int code;
+	
+	/**
+	 * Representation lilypond de la note
+	 */
 	private String lilypond;
+	
+	/**
+	 * Durée de la note en temp musical
+	 */
 	private int duration;
 
+	/**
+	 * Initialise tout les paramètres de la note en decoupant une chaine via une expression régulière
+	 * @param data Represente la note tel que lue dans le fichier chant
+	 * @throws ParsingException Si la note ne peut pas être reconnue via un regex de decryptage
+	 */
 	public Note(String data) throws ParsingException {
 		if (data.matches("^((do|re|mi|fa|sol|la|si)[1-4]|-):[1-9][0-9]*$")) {
 			String[] noteData = data.split(":");
@@ -31,6 +64,11 @@ public class Note {
 		}
 	}
 
+	/**
+	 * Initialise une note via son nom et son octave
+	 * @param name Nom de la note parmis les 7 possibles
+	 * @param octave Octave de la note entre 1 et 4
+	 */
 	public Note(String name, int octave) {
 		this.name = name;
 		this.octave = octave;
@@ -40,6 +78,10 @@ public class Note {
 		this.lilypond = NoteUtils.getLilypond(name, octave, 1);
 	}
 
+	/**
+	 * Initialise une note avec seulement son nom, utilisée principalement par les accords
+	 * @param name Nom de la note parmis une énumération des 7 possibles
+	 */
 	public Note(NoteType name) {
 		this.name = name.toString().toLowerCase();
 	}
@@ -75,6 +117,11 @@ public class Note {
 		return true;
 	}
 
+	/**
+	 * Fonction equals ne prenant en compte que le nom de la note
+	 * @param note Note à comparer
+	 * @return si le nom des deux notes est identique
+	 */
 	public boolean nameEquals(Note note) {
 		return note.getName().equals(name);
 	}
